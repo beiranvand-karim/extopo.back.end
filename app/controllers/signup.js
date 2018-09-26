@@ -32,7 +32,7 @@ const spec = require('../spec');
  *         description: signup
  */
 exports.signup = ctx => {
-  //create user 
+  //create user
   return ctx.res.ok({
     {/*data*/},
     message: 'User Created'
