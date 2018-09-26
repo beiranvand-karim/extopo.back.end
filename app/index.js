@@ -15,8 +15,8 @@ const logger = require('./logger');
 const requestId = require('./middlewares/requestId');
 const responseHandler = require('./middlewares/responseHandler');
 const router = require('./routes');
-
 const koaSwagger = require('koa2-swagger-ui');
+require('./mongoose')();
 
 const app = new Koa();
 
@@ -29,8 +29,10 @@ app.use(
   }),
 );
 
+
 // Trust proxy
 app.proxy = true;
+
 
 // Set middlewares
 app.use(
