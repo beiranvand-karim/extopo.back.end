@@ -17,6 +17,7 @@ const responseHandler = require('./middlewares/responseHandler');
 const router = require('./routes');
 const koaSwagger = require('koa2-swagger-ui');
 require('./mongoose')();
+const passport = require('koa-passport');
 
 const app = new Koa();
 
@@ -53,6 +54,12 @@ app.use(
 app.use(responseHandler());
 app.use(errorHandler());
 app.use(logMiddleware({ logger }));
+
+
+require('./passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Bootstrap application router
 app.use(router.routes());
