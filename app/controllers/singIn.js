@@ -11,7 +11,7 @@ exports.signInController = async function (ctx, next) {
 
     const response = user.toJSON();
 
-    delete response.password;
+    delete response.passWord;
 
     ctx.body = {
       token,
@@ -20,7 +20,7 @@ exports.signInController = async function (ctx, next) {
 
     //Login user in order to save token in session
     return ctx.login(user)
-    
+
   })(ctx);
 
 };

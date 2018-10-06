@@ -17,13 +17,13 @@ const spec = require('../spec');
  *         in: formData
  *         required: true
  *         type: string
- *       - name: password
- *         description: User's password.
+ *       - name: passWord
+ *         description: User's passWord.
  *         in: formData
  *         required: true
  *         type: string
  *       - name: confirmPassword
- *         description: Confirmation of User's password.
+ *         description: Confirmation of User's passWord.
  *         in: formData
  *         required: true
  *         type: string
