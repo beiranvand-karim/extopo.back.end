@@ -13,24 +13,21 @@ const userSchema = new Schema({
   password: { type: String, required: false }
 });
 
-userSchema.pre('save', async function(next) {
-
+userSchema.pre('save', async function (next) {
   try {
     const salt = await bCrypt.genSalt(10);
     this.password = await bCrypt.hash(this.password, salt);
-    next()
+    next();
   } catch (e) {
-    next(e)
+    next(e);
   }
-
 });
 
 userSchema.methods.isValidPassword = async function (newPassWord) {
-
   try {
-    return await bCrypt.compare(newPassWord, this.password)
+    return await bCrypt.compare(newPassWord, this.password);
   } catch (e) {
-    throw new Error(e)
+    throw new Error(e);
   }
 };
 
@@ -40,10 +37,8 @@ userSchema.methods.generateToken = function () {
     sub: this.id,
     iat: new Date().getTime(),
     exp: new Date().setDate(new Date().getDate() + 1)
-  }, 'secret')
+  }, 'secret');
 };
-
-
 
 const User = mongoose.model('user', userSchema);
 

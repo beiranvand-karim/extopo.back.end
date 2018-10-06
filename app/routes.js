@@ -11,10 +11,11 @@ const router = new Router();
 
 router.get('/', homeController.getApiInfo);
 router.get('/spec', homeController.getSwaggerSpec);
-router.post('/signIn', signInController.signInController);
+router.post('/sign-in', signInController.signInController);
+router.post('/sign-up', signUpController.signUpController);
 
-//---------------Test---------------//
-router.post('/testAuth', testController.testAuth);
-//---------------Test---------------//
+// ---------------Test---------------//
+router.post('/test-auth', testController.testAuth);
+// ---------------Test---------------//
 
 module.exports = router;
