@@ -1,7 +1,8 @@
 const passport = require('koa-passport');
+const jwt = require('jsonwebtoken');
 
 exports.signInController = async function (ctx, next) {
-  return passport.authenticate('local', (err, user) => {
+  return passport.authenticate('local',  (err, user) => {
     if (err || !user) {
       ctx.throw(401);
     }
@@ -16,5 +17,10 @@ exports.signInController = async function (ctx, next) {
       token,
       user: response
     };
-  })(ctx, next);
+
+    //Login user in order to save token in session
+    return ctx.login(user)
+    
+  })(ctx);
+
 };

@@ -34,9 +34,9 @@ const spec = require('../spec');
 exports.signup = ctx => {
   //create user
   return ctx.res.ok({
-    {/*data*/},
     message: 'User Created'
   });
+}
 
 /**
  * @swagger
