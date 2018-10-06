@@ -23,18 +23,20 @@ const app = new Koa();
 
 app.use(
   koaSwagger({
-    routePrefix: '/swagger', // host at /swagger instead of default /docs
+    // host at /swagger instead of default /docs
+    routePrefix: '/swagger',
     swaggerOptions: {
-      url: '/spec', // example path to json
+      // example path to json
+      url: '/spec',
     },
   }),
 );
 
 
 // sessions
-const session = require('koa-session')
-app.keys = ['your-session-secret']
-app.use(session({}, app))
+const session = require('koa-session');
+app.keys = ['your-session-secret'];
+app.use(session({}, app));
 
 // Trust proxy
 app.proxy = true;
@@ -71,10 +73,8 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 function onError(err, ctx) {
-  if (apm.active)
-    apm.captureError(err);
-  if (ctx == null)
-    logger.error({ err, event: 'error' }, 'Unhandled exception occured');
+  if (apm.active) { apm.captureError(err); }
+  if (ctx == null) { logger.error({ err, event: 'error' }, 'Unhandled exception occured'); }
 }
 
 // Handle uncaught errors

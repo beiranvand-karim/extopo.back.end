@@ -1,9 +1,13 @@
 'use strict';
 
 exports.testAuth = ctx => {
-  // create user
-  console.log(ctx.isAuthenticated());
+  if (ctx.isAuthenticated()) {
+    return ctx.res.ok({
+      message: 'user IS authenticated.'
+    });
+  }
+
   return ctx.res.ok({
-    message: 'TestAuth'
+    message: 'user is NOT authenticated.'
   });
 };
