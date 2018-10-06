@@ -1,3 +1,4 @@
+const passport = require('koa-passport');
 
 exports.signInController = async function (ctx, next) {
   return passport.authenticate('local', (err, user) => {

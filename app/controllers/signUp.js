@@ -1,4 +1,4 @@
-const passport = require('koa-passport');
+
 const User = require('../models/user');
 
 exports.signUpController =  async function (ctx, next) {
