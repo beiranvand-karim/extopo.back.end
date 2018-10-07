@@ -17,7 +17,7 @@ const userSchema = new Schema({
   passWord: { type: String, required: true },
   lastLogin: { type: Date, required: true },
   registrationDate: { type: Date, required: true },
-  userType: { type: employerSchema || employeeSchema, required: true }
+  userType: { type: employeeSchema || employerSchema, required: true }
 });
 
 userSchema.pre('save', async function (next) {
@@ -49,4 +49,4 @@ userSchema.methods.generateToken = function () {
 
 const User = mongoose.model('user', userSchema);
 
-module.exports = User;
+exports = User;

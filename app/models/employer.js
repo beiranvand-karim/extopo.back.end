@@ -6,10 +6,10 @@ mongoose.Promise = global.Promise;
 
 
 const employerSchema = new Schema({
-
+  name: { type: String, required: true }
 });
 
 
 const Employer = mongoose.model('employer', employerSchema);
 
-module.exports = Employer;
+exports = Employer;

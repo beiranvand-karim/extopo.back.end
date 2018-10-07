@@ -6,7 +6,7 @@ const signInController = require('./controllers/singIn');
 const signUpController = require('./controllers/signUp');
 const testController = require('./test/controllers/testAuth');
 const signOutController = require('./controllers/signOut');
-
+const { createExperience } = require('./controllers/experience');
 const router = new Router();
 
 
@@ -19,5 +19,7 @@ router.get('/sign-out', signOutController.signOutController);
 // ---------------Test---------------//
 router.post('/test-auth', testController.testAuth);
 // ---------------Test---------------//
+
+router.post('/experience', createExperience);
 
 module.exports = router;
