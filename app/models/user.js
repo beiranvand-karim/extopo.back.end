@@ -4,9 +4,10 @@ const bCrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const employeeSchema = require('../models/employee');
 const employerSchema = require('../models/employer');
+
+
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
-
 
 
 const userSchema = new Schema({
@@ -16,7 +17,7 @@ const userSchema = new Schema({
   passWord: { type: String, required: true },
   lastLogin: { type: Date, required: true },
   registrationDate: { type: Date, required: true },
-  userType: { type: [employerSchema || employeeSchema], required: true }
+  userType: { type: employerSchema || employeeSchema, required: true }
 });
 
 userSchema.pre('save', async function (next) {

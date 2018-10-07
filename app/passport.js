@@ -21,13 +21,13 @@ passport.deserializeUser(async (id, done) => {
 passport.use('local', new Strategy({
   usernameField: 'userName',
   passwordField: 'passWord'
-}, async (username, password, done) => {
+}, async (userName, passWord, done) => {
   try {
-    const user = await User.findOne({ username: userName });
+    const user = await User.findOne({ userName });
     if (!user) { return done(null, false); }
 
     try {
-      const isMatch = await user.isValidPassword(password);
+      const isMatch = await user.isValidPassword(passWord);
 
       if (!isMatch) { return done(null, false); }
 
