@@ -49,3 +49,15 @@ exports.readExperience = async ctx => {
     });
   }
 };
+
+
+exports.readAllExperiences = async (ctx) => {
+  if (ctx.isAuthenticated()) {
+    const experiences = await Experience.find();
+    return ctx.body = experiences;
+  } else {
+    return ctx.res.ok({
+      message: 'user NOT authenticated.'
+    });
+  }
+};

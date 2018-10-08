@@ -6,7 +6,7 @@ const signInController = require('./controllers/singIn');
 const signUpController = require('./controllers/signUp');
 const testController = require('./test/controllers/testAuth');
 const signOutController = require('./controllers/signOut');
-const { createExperience, readExperience } = require('./controllers/experience');
+const { createExperience, readExperience, readAllExperiences } = require('./controllers/experience');
 const router = new Router();
 
 
@@ -22,4 +22,5 @@ router.post('/test-auth', testController.testAuth);
 
 router.post('/experience', createExperience);
 router.get('/experience/:id', readExperience);
+router.get('/experience', readAllExperiences);
 module.exports = router;
