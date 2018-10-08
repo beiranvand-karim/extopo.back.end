@@ -61,3 +61,18 @@ exports.readAllExperiences = async (ctx) => {
     });
   }
 };
+
+exports.deleteExperience = async ctx => {
+  if (ctx.isAuthenticated()) {
+    const response = await Experience.deleteOne({ '_id': ctx.params.id });
+
+    const message = response.n === 1 ? 'the experience removed.' : 'no such experience found.';
+    return ctx.body = {
+      message
+    };
+  } else {
+    return ctx.res.ok({
+      message: 'user NOT authenticated.'
+    });
+  }
+};
