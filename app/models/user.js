@@ -15,8 +15,8 @@ const userSchema = new Schema({
   lastName: { type: String, required: true },
   userName: { type: String, required: true, unique: true },
   passWord: { type: String, required: true },
-  lastLogin: { type: Date, required: false },
-  registrationDate: { type: Date, required: false },
+  lastLogIn: { type: Date, required: true },
+  registrationDate: { type: Date, required: true },
   userType: { type: employeeSchema || employerSchema, required: false }
 });
 
@@ -40,7 +40,7 @@ userSchema.methods.isValidPassword = async function (newPassWord) {
 
 userSchema.methods.generateToken = function () {
   return jwt.sign({
-    iss: 'codeworkr',
+    iss: 'secret',
     sub: this.id,
     iat: new Date().getTime(),
     exp: new Date().setDate(new Date().getDate() + 1)

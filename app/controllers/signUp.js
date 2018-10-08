@@ -12,7 +12,15 @@ exports.signUpController =  async function (ctx, next) {
     };
   }
 
-  const newUser = new User({ userName, passWord, firstName, lastName });
+  const newUser = new User({
+    userName,
+    passWord,
+    firstName,
+    lastName,
+    registrationDate: new Date(),
+    lastLogIn: new Date()
+  });
+
   await newUser.save();
 
   const token = newUser.generateToken();

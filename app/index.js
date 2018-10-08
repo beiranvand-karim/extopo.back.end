@@ -35,7 +35,7 @@ app.use(
 
 // sessions
 const session = require('koa-session');
-app.keys = ['your-session-secret'];
+app.keys = ['secret'];
 app.use(session({}, app));
 
 // Trust proxy
