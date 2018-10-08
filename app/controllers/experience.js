@@ -2,21 +2,50 @@
 const Experience = require('../models/experience');
 
 exports.createExperience = async function (ctx) {
-  const { name, description, year } = ctx.request.body;
+  if (ctx.isAuthenticated()) {
+    const { name, description, year } = ctx.request.body;
 
-  console.log(name, description, year);
+    const newExperience = new Experience({ name, description, year });
 
-  const newExperience = new Experience({ name, description, year });
+    const result = await newExperience.save();
 
-  const result = await newExperience.save();
+    if (result) {
+      return ctx.res.ok({
+        message: 'experience created'
+      });
+    }
 
-  if (result) {
     return ctx.res.ok({
-      message: 'experience created'
+      message: 'experience NOT created.'
+    });
+  } else {
+    return ctx.res.ok({
+      message: 'user NOT authenticated.'
     });
   }
+};
 
-  return ctx.res.ok({
-    message: 'experience NOT created.'
-  });
+
+exports.readExperience = async ctx => {
+  if (ctx.isAuthenticated()) {
+    const experience = await Experience.findById(ctx.params.id);
+
+    if (experience) {
+      const { name, description, year, _id } = experience;
+      return ctx.body = {
+        name,
+        description,
+        year,
+        _id
+      };
+    } else {
+      return ctx.res.ok({
+        message: 'the experience NOT found.'
+      });
+    }
+  } else {
+    return ctx.res.ok({
+      message: 'user NOT authenticated.'
+    });
+  }
 };

@@ -13,11 +13,11 @@ mongoose.Promise = global.Promise;
 const userSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  userName: { type: String, required: false, unique: true },
+  userName: { type: String, required: true, unique: true },
   passWord: { type: String, required: true },
-  lastLogin: { type: Date, required: true },
-  registrationDate: { type: Date, required: true },
-  userType: { type: employeeSchema || employerSchema, required: true }
+  lastLogin: { type: Date, required: false },
+  registrationDate: { type: Date, required: false },
+  userType: { type: employeeSchema || employerSchema, required: false }
 });
 
 userSchema.pre('save', async function (next) {
@@ -49,4 +49,4 @@ userSchema.methods.generateToken = function () {
 
 const User = mongoose.model('user', userSchema);
 
-exports = User;
+module.exports = User;

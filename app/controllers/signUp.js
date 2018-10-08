@@ -2,7 +2,7 @@
 const User = require('../models/user');
 
 exports.signUpController =  async function (ctx, next) {
-  const { userName, passWord } = ctx.request.body;
+  const { userName, passWord, firstName, lastName } = ctx.request.body;
 
   const user = await User.findOne({ userName });
 
@@ -12,7 +12,7 @@ exports.signUpController =  async function (ctx, next) {
     };
   }
 
-  const newUser = new User({ userName, passWord });
+  const newUser = new User({ userName, passWord, firstName, lastName });
   await newUser.save();
 
   const token = newUser.generateToken();

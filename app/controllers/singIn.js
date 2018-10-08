@@ -18,8 +18,8 @@ exports.signInController = async function (ctx, next) {
       user: response
     };
 
-    //Login user in order to save token in session
-    return ctx.login(user)
+    // Login user in order to save token in session
+    return ctx.login(user);
 
   })(ctx);
 
