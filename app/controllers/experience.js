@@ -76,3 +76,21 @@ exports.deleteExperience = async ctx => {
     });
   }
 };
+
+exports.updateExperience = async ctx => {
+  if (ctx.isAuthenticated()) {
+    const { name, description, year } = ctx.request.body;
+
+    const response = await Experience.updateOne({ '_id': ctx.params.id }, { name, description, year });
+
+    const message = response.n === 1 ? 'the experience updated.' : 'no such experience found.';
+
+    return ctx.body = {
+      message
+    };
+  } else {
+    return ctx.res.ok({
+      message: 'user NOT authenticated.'
+    });
+  }
+};
