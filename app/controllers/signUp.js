@@ -2,7 +2,7 @@
 const User = require('../models/user');
 
 exports.signUpController =  async function (ctx, next) {
-  const { userName, passWord, firstName, lastName } = ctx.request.body;
+  const { userName, passWord, firstName, lastName, userType } = ctx.request.body;
 
   const user = await User.findOne({ userName });
 
@@ -17,6 +17,7 @@ exports.signUpController =  async function (ctx, next) {
     passWord,
     firstName,
     lastName,
+    userType,
     registrationDate: new Date(),
     lastLogIn: new Date()
   });

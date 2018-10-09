@@ -2,8 +2,6 @@
 const mongoose = require('mongoose');
 const bCrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const employeeSchema = require('../models/employee');
-const employerSchema = require('../models/employer');
 
 
 const Schema = mongoose.Schema;
@@ -17,7 +15,7 @@ const userSchema = new Schema({
   passWord: { type: String, required: true },
   lastLogIn: { type: Date, required: true },
   registrationDate: { type: Date, required: true },
-  userType: { type: employeeSchema || employerSchema, required: false }
+  userType: { type: String, required: true }
 });
 
 userSchema.pre('save', async function (next) {

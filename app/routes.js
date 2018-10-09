@@ -7,6 +7,8 @@ const signUpController = require('./controllers/signUp');
 const testController = require('./test/controllers/testAuth');
 const signOutController = require('./controllers/signOut');
 const { createExperience, readExperience, readAllExperiences, deleteExperience, updateExperience } = require('./controllers/experience');
+const {createProject } = require('./controllers/project');
+
 const router = new Router();
 
 
@@ -25,4 +27,8 @@ router.get('/experience/:id', readExperience);
 router.get('/experience', readAllExperiences);
 router.delete('/experience/:id', deleteExperience);
 router.put('/experience/:id', updateExperience);
+
+
+router.post('/project', createProject);
+
 module.exports = router;

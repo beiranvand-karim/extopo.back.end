@@ -12,11 +12,11 @@ const projectSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   date: { type: Date, required: true },
-  employees: [ObjectId],
-  employer: ObjectId
+  employees: { type: [ObjectId], required: false },
+  employer: { type: ObjectId, required: true }
 });
 
 
 const Project = mongoose.model('project', projectSchema);
 
-exports = Project;
+module.exports = Project;
