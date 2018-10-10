@@ -10,7 +10,7 @@ const membershipSchema = new Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   userId: { type: ObjectId, required: true },
-  userType: { type: ObjectId, required: true }
+  userType: { type: String, required: true }
 });
 
 
