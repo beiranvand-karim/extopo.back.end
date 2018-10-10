@@ -15,4 +15,4 @@ const resumeSchema = new Schema({
 
 const Resume = mongoose.model('resume', resumeSchema);
 
-exports = Resume;
+module.exports = Resume;
