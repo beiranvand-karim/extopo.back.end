@@ -56,8 +56,8 @@ exports.readAllProjects = async ctx => {
       ctx.status = 404;
       return ctx.body = 'NOT found';
     } catch (e) {
-      ctx.status = e.code;
-      ctx.body = e;
+      ctx.status = 500;
+      ctx.body = e.message;
     }
   } else {
     ctx.status = 401;
