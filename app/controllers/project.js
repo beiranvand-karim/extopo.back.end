@@ -64,3 +64,27 @@ exports.readAllProjects = async ctx => {
     return ctx.body = 'NOT Authenticated';
   }
 };
+
+exports.updateProject = async ctx => {
+  if (ctx.isAuthenticated()) {
+    try {
+      // const { name, description, date, employees, employer } = ctx.body;
+      const { name, description, date, employees, employer } = ctx.request.body;
+      // update section
+      const response = await Project.updateOne({ '_id': ctx.params.id }, { name, description, date, employees, employer });
+      if (response.n === 1) {
+        ctx.status = 200;
+        return ctx.body = response;
+      }
+      // not found section
+      ctx.status = 404;
+      return ctx.body = 'NOT found';
+    } catch (e) {
+      ctx.status = 500;
+      ctx.body = e.message;
+    }
+  } else {
+    ctx.status = 401;
+    return ctx.body = 'NOT Authenticated';
+  }
+};
