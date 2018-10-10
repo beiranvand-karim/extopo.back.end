@@ -8,7 +8,7 @@ const testController = require('./test/controllers/testAuth');
 const signOutController = require('./controllers/signOut');
 const { createExperience, readExperience, readAllExperiences, deleteExperience, updateExperience } = require('./controllers/experience');
 const { createProject, readProject, readAllProjects, updateProject, deleteProject } = require('./controllers/project');
-const { createResume, readResume, readAllResumes } = require('./controllers/resume');
+const { createResume, readResume, readAllResumes, updateResume } = require('./controllers/resume');
 
 const router = new Router();
 
@@ -40,5 +40,7 @@ router.delete('/project/:id', deleteProject);
 router.post('/resume', createResume);
 router.get('/resume/:id', readResume);
 router.get('/resume', readAllResumes);
+router.put('/resume/:id', updateResume);
+
 
 module.exports = router;
