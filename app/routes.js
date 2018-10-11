@@ -9,6 +9,7 @@ const signOutController = require('./controllers/signOut');
 const { createExperience, readExperience, readAllExperiences, deleteExperience, updateExperience } = require('./controllers/experience');
 const { createProject, readProject, readAllProjects, updateProject, deleteProject } = require('./controllers/project');
 const { createResume, readResume, readAllResumes, updateResume, deleteResume } = require('./controllers/resume');
+const { createMembership } = require('./controllers/membership');
 
 const router = new Router();
 
@@ -43,5 +44,7 @@ router.get('/resume', readAllResumes);
 router.put('/resume/:id', updateResume);
 router.delete('/resume/:id', deleteResume);
 
+
+router.post('/membership', createMembership);
 
 module.exports = router;

@@ -1,33 +1,37 @@
 
 const User = require('../models/user');
 
-exports.signUpController =  async function (ctx, next) {
-  const { userName, passWord, firstName, lastName, userType } = ctx.request.body;
+exports.signUpController =  async function (ctx) {
+  try {
+    const { userName, passWord, firstName, lastName, userType } = ctx.request.body;
 
-  const user = await User.findOne({ userName });
+    const user = await User.findOne({ userName });
 
-  if (user) {
-    return ctx.body = {
-      error: 'user already in use'
-    };
+    if (user) {
+      ctx.status = 409;
+      return ctx.body = 'user already in use.';
+    }
+
+    const newUser = new User({
+      userName,
+      passWord,
+      firstName,
+      lastName,
+      userType,
+      registrationDate: new Date(),
+      lastLogIn: new Date()
+    });
+
+    const saveUser = await newUser.save();
+
+    delete saveUser.passWord;
+
+    const token = newUser.generateToken();
+
+    ctx.status = 201;
+    return ctx.body = { token, saveUser };
+  } catch (e) {
+    ctx.status = 500;
+    return ctx.body = e.message;
   }
-
-  const newUser = new User({
-    userName,
-    passWord,
-    firstName,
-    lastName,
-    userType,
-    registrationDate: new Date(),
-    lastLogIn: new Date()
-  });
-
-  await newUser.save();
-
-  const token = newUser.generateToken();
-
-  return ctx.body = {
-    message: 'user registered.',
-    token
-  };
 };
