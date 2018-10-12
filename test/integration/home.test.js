@@ -1,3 +1,4 @@
+/* global describe, beforeEach, it */
 'use strict';
 
 const supertest = require('supertest');

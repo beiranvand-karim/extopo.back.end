@@ -12,12 +12,16 @@ exports.signUpController =  async function (ctx) {
       return ctx.body = 'user already in use.';
     }
 
+    const fields = {};
+
+    (userName) && Object.assign(fields, { userName });
+    (passWord) && Object.assign(fields, { passWord });
+    (firstName) && Object.assign(fields, { firstName });
+    (lastName) && Object.assign(fields, { lastName });
+    (userType) && Object.assign(fields, { userType });
+
     const newUser = new User({
-      userName,
-      passWord,
-      firstName,
-      lastName,
-      userType,
+      ...fields,
       registrationDate: new Date(),
       lastLogIn: new Date()
     });
