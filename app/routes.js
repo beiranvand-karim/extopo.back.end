@@ -9,7 +9,7 @@ const signOutController = require('./controllers/signOut');
 const { createExperience, readExperience, readAllExperiences, deleteExperience, updateExperience } = require('./controllers/experience');
 const { createProject, readProject, readAllProjects, updateProject, deleteProject } = require('./controllers/project');
 const { createResume, readResume, readAllResumes, updateResume, deleteResume } = require('./controllers/resume');
-const { createMembership, readMembership, readAllMemberships } = require('./controllers/membership');
+const { createMembership, readMembership, readAllMemberships, updateMembership } = require('./controllers/membership');
 
 const router = new Router();
 
@@ -48,5 +48,6 @@ router.delete('/resume/:id', deleteResume);
 router.post('/membership', createMembership);
 router.get('/membership/:id', readMembership);
 router.get('/membership', readAllMemberships);
+router.put('/membership/:id', updateMembership);
 
 module.exports = router;
