@@ -10,11 +10,7 @@ exports.signInController = async function (ctx) {
     try {
       const fetchedUser = await User.findOne({ userName: user.userName });
 
-      // todo update last log in
-      // User.update({ userName: user.userName }, { lastLogIn: new Date() }, { upsert: true });
-
-      fetchedUser.update({ lastLogIn: new Date() });
-      fetchedUser.save();
+      await User.updateOne({ _id: fetchedUser.id }, { lastLogIn: new Date() });
 
       const token = user.generateToken();
 
