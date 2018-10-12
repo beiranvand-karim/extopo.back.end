@@ -88,7 +88,7 @@ exports.updateResume = async ctx => {
       const response = await Resume.updateOne({ '_id': ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = response;
+        return ctx.body = 'the resume updated.';
       }
       // not found section
       ctx.status = 404;
@@ -110,7 +110,7 @@ exports.deleteResume = async ctx => {
       const response = await Resume.deleteOne({ '_id': ctx.params.id });
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = response;
+        return ctx.body = 'the resume deleted.';
       }
       // not found section
       ctx.status = 404;

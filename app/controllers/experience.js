@@ -3,94 +3,125 @@ const Experience = require('../models/experience');
 
 exports.createExperience = async function (ctx) {
   if (ctx.isAuthenticated()) {
-    const { name, description, year } = ctx.request.body;
+    try {
+      const { name, description, year } = ctx.request.body;
+      // create section
+      const newExperience = new Experience({ name, description, year  });
+      const response = await newExperience.save();
 
-    const newExperience = new Experience({ name, description, year });
-
-    const result = await newExperience.save();
-
-    if (result) {
-      return ctx.res.ok({
-        message: 'experience created'
-      });
+      if (response) {
+        ctx.status = 201;
+        return ctx.body = response;
+      }
+      // not found section
+      ctx.status = 404;
+      return ctx.body = 'NOT found';
+    } catch (e) {
+      ctx.status = 500;
+      ctx.body = e.message;
     }
-
-    return ctx.res.ok({
-      message: 'experience NOT created.'
-    });
   } else {
-    return ctx.res.ok({
-      message: 'user NOT authenticated.'
-    });
+    ctx.status = 401;
+    return ctx.body = 'NOT Authenticated';
   }
 };
 
 
 exports.readExperience = async ctx => {
   if (ctx.isAuthenticated()) {
-    const experience = await Experience.findById(ctx.params.id);
-
-    if (experience) {
-      const { name, description, year, _id } = experience;
-      return ctx.body = {
-        name,
-        description,
-        year,
-        _id
-      };
-    } else {
-      return ctx.res.ok({
-        message: 'the experience NOT found.'
-      });
+    try {
+      // found section
+      const response = await Experience.findById(ctx.params.id);
+      if (response) {
+        ctx.status = 200;
+        return ctx.body = response;
+      }
+      // not found section
+      ctx.status = 404;
+      return ctx.body = 'NOT found.';
+    } catch (e) {
+      ctx.status = e.code;
+      ctx.body = e.message;
     }
   } else {
-    return ctx.res.ok({
-      message: 'user NOT authenticated.'
-    });
+    ctx.status = 401;
+    return ctx.body = 'NOT Authenticated.';
   }
 };
 
 
 exports.readAllExperiences = async (ctx) => {
   if (ctx.isAuthenticated()) {
-    const experiences = await Experience.find();
-    return ctx.body = experiences;
+    try {
+      // found section
+      const response = await Experience.find();
+      if (response) {
+        ctx.status = 200;
+        return ctx.body = response;
+      }
+      // not found section
+      ctx.status = 404;
+      return ctx.body = 'NOT found';
+    } catch (e) {
+      ctx.status = 500;
+      ctx.body = e.message;
+    }
   } else {
-    return ctx.res.ok({
-      message: 'user NOT authenticated.'
-    });
-  }
-};
-
-exports.deleteExperience = async ctx => {
-  if (ctx.isAuthenticated()) {
-    const response = await Experience.deleteOne({ '_id': ctx.params.id });
-
-    const message = response.n === 1 ? 'the experience removed.' : 'no such experience found.';
-    return ctx.body = {
-      message
-    };
-  } else {
-    return ctx.res.ok({
-      message: 'user NOT authenticated.'
-    });
+    ctx.status = 401;
+    return ctx.body = 'NOT Authenticated';
   }
 };
 
 exports.updateExperience = async ctx => {
   if (ctx.isAuthenticated()) {
-    const { name, description, year } = ctx.request.body;
+    try {
+      const { name, description, year } = ctx.request.body;
 
-    const response = await Experience.updateOne({ '_id': ctx.params.id }, { name, description, year });
+      const updatedFields = {};
 
-    const message = response.n === 1 ? 'the experience updated.' : 'no such experience found.';
+      (name) && Object.assign(updatedFields, { name });
+      (description) && Object.assign(updatedFields, { description });
+      (year) && Object.assign(updatedFields, { year });
 
-    return ctx.body = {
-      message
-    };
+      const response = await Experience.updateOne({ '_id': ctx.params.id }, updatedFields);
+
+      if (response.n === 1) {
+        ctx.status = 200;
+        return ctx.body = 'the experience updated.';
+      }
+
+      // not found section
+      ctx.status = 404;
+      return ctx.body = 'NOT found';
+    } catch (e) {
+      ctx.status = 500;
+      ctx.body = e.message;
+    }
   } else {
-    return ctx.res.ok({
-      message: 'user NOT authenticated.'
-    });
+    ctx.status = 401;
+    return ctx.body = 'NOT Authenticated';
+  }
+};
+
+
+exports.deleteExperience = async ctx => {
+  if (ctx.isAuthenticated()) {
+    try {
+      // delete section
+      const response = await Experience.deleteOne({ '_id': ctx.params.id });
+      if (response.n === 1) {
+        ctx.status = 200;
+        return ctx.body = 'the experience deleted.';
+      }
+      // not found section
+      ctx.status = 404;
+      return ctx.body = 'NOT found';
+    } catch (e) {
+      ctx.status = 500;
+      ctx.body = e.message;
+    }
+  } else {
+    ctx.status = 401;
+    return ctx.body = 'NOT Authenticated';
   }
 };

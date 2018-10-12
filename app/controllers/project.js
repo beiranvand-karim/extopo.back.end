@@ -3,20 +3,26 @@ const Project = require('../models/project');
 
 exports.createProject = async ctx => {
   if (ctx.isAuthenticated()) {
-    const { name, description, employer } = ctx.request.body;
-
     try {
+      const { name, description, employer } = ctx.request.body;
+      // create section
       const newProject = new Project({ name, description, employer, date: new Date() });
-      ctx.body = await newProject.save();
+      const response = await newProject.save();
+
+      if (response) {
+        ctx.status = 201;
+        return ctx.body = response;
+      }
+      // not found section
+      ctx.status = 404;
+      return ctx.body = 'NOT found';
     } catch (e) {
-      ctx.body = {
-        e
-      };
+      ctx.status = 500;
+      ctx.body = e.message;
     }
   } else {
-    return ctx.res.ok({
-      message: 'user NOT authenticated'
-    });
+    ctx.status = 401;
+    return ctx.body = 'NOT Authenticated';
   }
 };
 
@@ -70,11 +76,20 @@ exports.updateProject = async ctx => {
     try {
       // const { name, description, date, employees, employer } = ctx.body;
       const { name, description, date, employees, employer } = ctx.request.body;
+
+      const updatedFields = {};
+
+      (name) && Object.assign(updatedFields, { name });
+      (description) && Object.assign(updatedFields, { description });
+      (date) && Object.assign(updatedFields, { date });
+      (employees) && Object.assign(updatedFields, { employees });
+      (employer) && Object.assign(updatedFields, { employer });
+
       // update section
-      const response = await Project.updateOne({ '_id': ctx.params.id }, { name, description, date, employees, employer });
+      const response = await Project.updateOne({ '_id': ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = response;
+        return ctx.body = 'the project updated.';
       }
       // not found section
       ctx.status = 404;
