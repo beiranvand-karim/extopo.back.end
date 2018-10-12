@@ -9,17 +9,15 @@ describe('Experience ', () => {
   const request = supertest(app.listen());
 
   beforeEach(async () => {
-    await Experience.remove({});
+    await Experience.deleteMany({});
   });
 
   describe('GET /experience', () => {
-    it('', async () => {
+    it('should be unauthorized.', async () => {
       const res = await request
         .get('/experience')
         .expect('Content-Type', 'text/plain; charset=utf-8')
-        .expect(200);
-
-      console.log(res.body);
+        .expect(401);
     });
   });
 });
