@@ -13,7 +13,11 @@ const { readExperience } = require('./controllers/experience/readExperience');
 const { createExperience } = require('./controllers/experience/createExperience');
 const { createProject, readProject, readAllProjects, updateProject, deleteProject } = require('./controllers/project/project');
 const { createResume, readResume, readAllResumes, updateResume, deleteResume } = require('./controllers/resume/resume');
-const { createMembership, readMembership, readAllMemberships, updateMembership, deleteMembership } = require('./controllers/membership/membership');
+const { createMembership } = require('./controllers/membership/createMembership');
+const { readMembership } = require('./controllers/membership/readMembership');
+const { readAllMemberships } = require('./controllers/membership/readAllMemberships');
+const { updateMembership } = require('./controllers/membership/updateMembership');
+const { deleteMembership } = require('./controllers/membership/deleteMembership');
 
 const router = new Router();
 
