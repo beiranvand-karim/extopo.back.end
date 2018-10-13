@@ -1,5 +1,5 @@
 
-const Project = require('../models/project');
+const Project = require('../../models/project');
 
 exports.createProject = async ctx => {
   if (ctx.isAuthenticated()) {

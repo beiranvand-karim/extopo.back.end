@@ -2,20 +2,20 @@
 'use strict';
 
 const supertest = require('supertest');
-const app = require('../');
-const Membership = require('../models/membership');
+const app = require('../../index');
+const Experience = require('../../models/experience');
 
-describe('Membership ', () => {
+describe('Experience ', () => {
   const request = supertest(app.listen());
 
   beforeEach(async () => {
-    await Membership.deleteMany({});
+    await Experience.deleteMany({});
   });
 
-  describe('GET /membership', () => {
+  describe('GET /experience', () => {
     it('should be unauthorized.', async () => {
       const res = await request
-        .get('/membership')
+        .get('/experience')
         .expect('Content-Type', 'text/plain; charset=utf-8')
         .expect(401);
     });

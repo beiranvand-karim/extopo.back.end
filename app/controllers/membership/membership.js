@@ -1,13 +1,13 @@
 
-const Resume = require('../models/resume');
+const Membership = require('../../models/membership');
 
-exports.createResume = async ctx => {
+exports.createMembership = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
-      const { skills, experiences, languages, projects } = ctx.request.body;
+      const { userId, userType } = ctx.request.body;
       // create section
-      const newResume = new Resume({ skills, experiences, languages, projects });
-      const response = await newResume.save();
+      const newMembership = new Membership({ startDate: new Date(), endDate: new Date(), userId, userType });
+      const response = await newMembership.save();
 
       if (response) {
         ctx.status = 201;
@@ -26,33 +26,33 @@ exports.createResume = async ctx => {
   }
 };
 
-exports.readResume = async ctx => {
+exports.readMembership = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // found section
-      const response = await Resume.findById(ctx.params.id);
+      const response = await Membership.findById(ctx.params.id);
       if (response) {
         ctx.status = 200;
         return ctx.body = response;
       }
       // not found section
       ctx.status = 404;
-      return ctx.body = 'NOT found';
+      return ctx.body = 'NOT found.';
     } catch (e) {
       ctx.status = e.code;
-      ctx.body = e;
+      ctx.body = e.message;
     }
   } else {
     ctx.status = 401;
-    return ctx.body = 'NOT Authenticated';
+    return ctx.body = 'NOT Authenticated.';
   }
 };
 
-exports.readAllResumes = async ctx => {
+exports.readAllMemberships = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // found section
-      const response = await Resume.find();
+      const response = await Membership.find();
       if (response) {
         ctx.status = 200;
         return ctx.body = response;
@@ -70,25 +70,23 @@ exports.readAllResumes = async ctx => {
   }
 };
 
-
-exports.updateResume = async ctx => {
+exports.updateMembership = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
-      // const { name, description, date, employees, employer } = ctx.body;
-      const { skills, experiences, languages, projects } = ctx.request.body;
+      const { userId, userType, startDate, endDate } = ctx.request.body;
 
       const updatedFields = {};
 
-      (skills) && Object.assign(updatedFields, { skills });
-      (experiences) && Object.assign(updatedFields, { experiences });
-      (languages) && Object.assign(updatedFields, { languages });
-      (projects) && Object.assign(updatedFields, { projects });
+      (userId) && Object.assign(updatedFields, { userId });
+      (userType) && Object.assign(updatedFields, { userType });
+      (startDate) && Object.assign(updatedFields, { startDate });
+      (endDate) && Object.assign(updatedFields, { endDate });
 
       // update section
-      const response = await Resume.updateOne({ _id: ctx.params.id }, updatedFields);
+      const response = await Membership.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the resume updated.';
+        return ctx.body = 'the membership updated';
       }
       // not found section
       ctx.status = 404;
@@ -103,14 +101,14 @@ exports.updateResume = async ctx => {
   }
 };
 
-exports.deleteResume = async ctx => {
+exports.deleteMembership = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // delete section
-      const response = await Resume.deleteOne({ _id: ctx.params.id });
+      const response = await Membership.deleteOne({ _id: ctx.params.id });
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the resume deleted.';
+        return ctx.body = 'the membership deleted';
       }
       // not found section
       ctx.status = 404;

@@ -6,10 +6,14 @@ const signInController = require('./controllers/signIn');
 const signUpController = require('./controllers/signUp');
 const testController = require('./test/controllers/testAuth');
 const signOutController = require('./controllers/signOut');
-const { createExperience, readExperience, readAllExperiences, deleteExperience, updateExperience } = require('./controllers/experience');
-const { createProject, readProject, readAllProjects, updateProject, deleteProject } = require('./controllers/project');
-const { createResume, readResume, readAllResumes, updateResume, deleteResume } = require('./controllers/resume');
-const { createMembership, readMembership, readAllMemberships, updateMembership, deleteMembership } = require('./controllers/membership');
+const { deleteExperience } = require('./controllers/experience/deleteExperience');
+const { updateExperience } = require('./controllers/experience/updateExperience');
+const { readAllExperiences } = require('./controllers/experience/readAllExperiences');
+const { readExperience } = require('./controllers/experience/readExperience');
+const { createExperience } = require('./controllers/experience/createExperience');
+const { createProject, readProject, readAllProjects, updateProject, deleteProject } = require('./controllers/project/project');
+const { createResume, readResume, readAllResumes, updateResume, deleteResume } = require('./controllers/resume/resume');
+const { createMembership, readMembership, readAllMemberships, updateMembership, deleteMembership } = require('./controllers/membership/membership');
 
 const router = new Router();
 

@@ -1,13 +1,13 @@
 
-const Experience = require('../models/experience');
+const Resume = require('../../models/resume');
 
-exports.createExperience = async function (ctx) {
+exports.createResume = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
-      const { name, description, year } = ctx.request.body;
+      const { skills, experiences, languages, projects } = ctx.request.body;
       // create section
-      const newExperience = new Experience({ name, description, year });
-      const response = await newExperience.save();
+      const newResume = new Resume({ skills, experiences, languages, projects });
+      const response = await newResume.save();
 
       if (response) {
         ctx.status = 201;
@@ -26,35 +26,33 @@ exports.createExperience = async function (ctx) {
   }
 };
 
-
-exports.readExperience = async ctx => {
+exports.readResume = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // found section
-      const response = await Experience.findById(ctx.params.id);
+      const response = await Resume.findById(ctx.params.id);
       if (response) {
         ctx.status = 200;
         return ctx.body = response;
       }
       // not found section
       ctx.status = 404;
-      return ctx.body = 'NOT found.';
+      return ctx.body = 'NOT found';
     } catch (e) {
       ctx.status = e.code;
-      ctx.body = e.message;
+      ctx.body = e;
     }
   } else {
     ctx.status = 401;
-    return ctx.body = 'NOT Authenticated.';
+    return ctx.body = 'NOT Authenticated';
   }
 };
 
-
-exports.readAllExperiences = async (ctx) => {
+exports.readAllResumes = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // found section
-      const response = await Experience.find();
+      const response = await Resume.find();
       if (response) {
         ctx.status = 200;
         return ctx.body = response;
@@ -72,24 +70,26 @@ exports.readAllExperiences = async (ctx) => {
   }
 };
 
-exports.updateExperience = async ctx => {
+
+exports.updateResume = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
-      const { name, description, year } = ctx.request.body;
+      // const { name, description, date, employees, employer } = ctx.body;
+      const { skills, experiences, languages, projects } = ctx.request.body;
 
       const updatedFields = {};
 
-      (name) && Object.assign(updatedFields, { name });
-      (description) && Object.assign(updatedFields, { description });
-      (year) && Object.assign(updatedFields, { year });
+      (skills) && Object.assign(updatedFields, { skills });
+      (experiences) && Object.assign(updatedFields, { experiences });
+      (languages) && Object.assign(updatedFields, { languages });
+      (projects) && Object.assign(updatedFields, { projects });
 
-      const response = await Experience.updateOne({ _id: ctx.params.id }, updatedFields);
-
+      // update section
+      const response = await Resume.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the experience updated.';
+        return ctx.body = 'the resume updated.';
       }
-
       // not found section
       ctx.status = 404;
       return ctx.body = 'NOT found';
@@ -103,15 +103,14 @@ exports.updateExperience = async ctx => {
   }
 };
 
-
-exports.deleteExperience = async ctx => {
+exports.deleteResume = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // delete section
-      const response = await Experience.deleteOne({ _id: ctx.params.id });
+      const response = await Resume.deleteOne({ _id: ctx.params.id });
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the experience deleted.';
+        return ctx.body = 'the resume deleted.';
       }
       // not found section
       ctx.status = 404;
