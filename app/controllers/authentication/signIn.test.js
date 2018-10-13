@@ -2,8 +2,8 @@
 'use strict';
 
 const supertest = require('supertest');
-const app = require('../');
-const User = require('../models/user');
+const app = require('../../index');
+const User = require('../../models/user');
 
 describe('signIn', () => {
   const request = supertest(app.listen());

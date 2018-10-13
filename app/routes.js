@@ -2,10 +2,9 @@
 
 const Router = require('koa-router');
 const homeController = require('./controllers/home');
-const signInController = require('./controllers/signIn');
-const signUpController = require('./controllers/signUp');
-const testController = require('./test/controllers/testAuth');
-const signOutController = require('./controllers/signOut');
+const signInController = require('./controllers/authentication/signIn');
+const signUpController = require('./controllers/authentication/signUp');
+const signOutController = require('./controllers/authentication/signOut');
 const { deleteExperience } = require('./controllers/experience/deleteExperience');
 const { updateExperience } = require('./controllers/experience/updateExperience');
 const { readAllExperiences } = require('./controllers/experience/readAllExperiences');
@@ -36,9 +35,6 @@ router.post('/sign-in', signInController.signInController);
 router.post('/sign-up', signUpController.signUpController);
 router.get('/sign-out', signOutController.signOutController);
 
-// ---------------Test---------------//
-router.post('/test-auth', testController.testAuth);
-// ---------------Test---------------//
 
 router.post('/experience', createExperience);
 router.get('/experience/:id', readExperience);

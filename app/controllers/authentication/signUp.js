@@ -1,5 +1,5 @@
 
-const User = require('../models/user');
+const User = require('../../models/user');
 
 exports.signUpController =  async function (ctx) {
   try {
