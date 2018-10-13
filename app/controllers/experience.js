@@ -6,7 +6,7 @@ exports.createExperience = async function (ctx) {
     try {
       const { name, description, year } = ctx.request.body;
       // create section
-      const newExperience = new Experience({ name, description, year  });
+      const newExperience = new Experience({ name, description, year });
       const response = await newExperience.save();
 
       if (response) {
@@ -83,7 +83,7 @@ exports.updateExperience = async ctx => {
       (description) && Object.assign(updatedFields, { description });
       (year) && Object.assign(updatedFields, { year });
 
-      const response = await Experience.updateOne({ '_id': ctx.params.id }, updatedFields);
+      const response = await Experience.updateOne({ _id: ctx.params.id }, updatedFields);
 
       if (response.n === 1) {
         ctx.status = 200;
@@ -108,7 +108,7 @@ exports.deleteExperience = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // delete section
-      const response = await Experience.deleteOne({ '_id': ctx.params.id });
+      const response = await Experience.deleteOne({ _id: ctx.params.id });
       if (response.n === 1) {
         ctx.status = 200;
         return ctx.body = 'the experience deleted.';

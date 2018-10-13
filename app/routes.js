@@ -2,7 +2,7 @@
 
 const Router = require('koa-router');
 const homeController = require('./controllers/home');
-const signInController = require('./controllers/singIn');
+const signInController = require('./controllers/signIn');
 const signUpController = require('./controllers/signUp');
 const testController = require('./test/controllers/testAuth');
 const signOutController = require('./controllers/signOut');

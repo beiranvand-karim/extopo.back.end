@@ -83,7 +83,7 @@ exports.updateMembership = async ctx => {
       (endDate) && Object.assign(updatedFields, { endDate });
 
       // update section
-      const response = await Membership.updateOne({ '_id': ctx.params.id }, updatedFields);
+      const response = await Membership.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
         return ctx.body = 'the membership updated';
@@ -105,7 +105,7 @@ exports.deleteMembership = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // delete section
-      const response = await Membership.deleteOne({ '_id': ctx.params.id });
+      const response = await Membership.deleteOne({ _id: ctx.params.id });
       if (response.n === 1) {
         ctx.status = 200;
         return ctx.body = 'the membership deleted';

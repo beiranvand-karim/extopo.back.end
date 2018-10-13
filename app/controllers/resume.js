@@ -85,7 +85,7 @@ exports.updateResume = async ctx => {
       (projects) && Object.assign(updatedFields, { projects });
 
       // update section
-      const response = await Resume.updateOne({ '_id': ctx.params.id }, updatedFields);
+      const response = await Resume.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
         return ctx.body = 'the resume updated.';
@@ -107,7 +107,7 @@ exports.deleteResume = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // delete section
-      const response = await Resume.deleteOne({ '_id': ctx.params.id });
+      const response = await Resume.deleteOne({ _id: ctx.params.id });
       if (response.n === 1) {
         ctx.status = 200;
         return ctx.body = 'the resume deleted.';
