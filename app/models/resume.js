@@ -12,6 +12,7 @@ const resumeSchema = new Schema({
   projects: { type: [ObjectId], required: true },
 });
 
+resumeSchema.index({ skills: 'text', experiences: 'text' });
 
 const Resume = mongoose.model('resume', resumeSchema);
 

@@ -5,21 +5,26 @@ const homeController = require('./controllers/home');
 const signInController = require('./controllers/authentication/signIn');
 const signUpController = require('./controllers/authentication/signUp');
 const signOutController = require('./controllers/authentication/signOut');
+
 const { deleteExperience } = require('./controllers/experience/deleteExperience');
 const { updateExperience } = require('./controllers/experience/updateExperience');
 const { readAllExperiences } = require('./controllers/experience/readAllExperiences');
 const { readExperience } = require('./controllers/experience/readExperience');
 const { createExperience } = require('./controllers/experience/createExperience');
+const { searchExperience } = require('./controllers/experience/searchExperience');
+
 const { createProject } = require('./controllers/project/createProject');
 const { readProject } = require('./controllers/project/readProject');
 const { readAllProjects } = require('./controllers/project/readAllProjects');
 const { updateProject } = require('./controllers/project/updateProject');
 const { deleteProject } = require('./controllers/project/deleteProject');
+
 const { createResume } = require('./controllers/resume/createResume');
 const { readResume } = require('./controllers/resume/readResume');
 const { readAllResumes } = require('./controllers/resume/readAllResumes');
 const {  updateResume } = require('./controllers/resume/updateResume');
 const {  deleteResume } = require('./controllers/resume/deleteResume');
+
 const { createMembership } = require('./controllers/membership/createMembership');
 const { readMembership } = require('./controllers/membership/readMembership');
 const { readAllMemberships } = require('./controllers/membership/readAllMemberships');
@@ -41,6 +46,7 @@ router.get('/experience/:id', readExperience);
 router.get('/experience', readAllExperiences);
 router.delete('/experience/:id', deleteExperience);
 router.put('/experience/:id', updateExperience);
+router.post('/experience/search', searchExperience);
 
 
 router.post('/project', createProject);

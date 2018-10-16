@@ -11,6 +11,8 @@ const experienceSchema = new Schema({
   year: { type: Number, required: true }
 });
 
+experienceSchema.index({ name: 'text' });
+
 const Experience = mongoose.model('experience', experienceSchema);
 
 module.exports = Experience;

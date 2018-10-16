@@ -16,6 +16,7 @@ const projectSchema = new Schema({
   employer: { type: ObjectId, required: true }
 });
 
+projectSchema.index({ name: 'text', description: 'text' });
 
 const Project = mongoose.model('project', projectSchema);
 

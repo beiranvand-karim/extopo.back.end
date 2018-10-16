@@ -8,9 +8,7 @@ exports.signInController = async function (ctx) {
     }
 
     try {
-      const fetchedUser = await User.findOne({ userName: user.userName });
-
-      await User.updateOne({ _id: fetchedUser.id }, { lastLogIn: new Date() });
+      await User.updateOne({ userName: user.userName }, { lastLogIn: new Date() });
 
       const token = user.generateToken();
 
