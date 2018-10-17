@@ -25,6 +25,7 @@ const { readResume } = require('./controllers/resume/readResume');
 const { readAllResumes } = require('./controllers/resume/readAllResumes');
 const {  updateResume } = require('./controllers/resume/updateResume');
 const {  deleteResume } = require('./controllers/resume/deleteResume');
+const {  searchResume } = require('./controllers/resume/searchResume');
 
 const { createMembership } = require('./controllers/membership/createMembership');
 const { readMembership } = require('./controllers/membership/readMembership');
@@ -63,6 +64,7 @@ router.get('/resume/:id', readResume);
 router.get('/resume', readAllResumes);
 router.put('/resume/:id', updateResume);
 router.delete('/resume/:id', deleteResume);
+router.post('/resume/search', searchResume);
 
 
 router.post('/membership', createMembership);
