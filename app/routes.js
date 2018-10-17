@@ -18,6 +18,7 @@ const { readProject } = require('./controllers/project/readProject');
 const { readAllProjects } = require('./controllers/project/readAllProjects');
 const { updateProject } = require('./controllers/project/updateProject');
 const { deleteProject } = require('./controllers/project/deleteProject');
+const { searchProject } = require('./controllers/project/searchProject');
 
 const { createResume } = require('./controllers/resume/createResume');
 const { readResume } = require('./controllers/resume/readResume');
@@ -54,6 +55,7 @@ router.get('/project/:id', readProject);
 router.get('/project', readAllProjects);
 router.put('/project/:id', updateProject);
 router.delete('/project/:id', deleteProject);
+router.post('/project/search', searchProject);
 
 
 router.post('/resume', createResume);
