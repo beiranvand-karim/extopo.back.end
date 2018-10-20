@@ -2,6 +2,21 @@ const passport = require('koa-passport');
 const User = require('../../models/user');
 
 exports.signInController = async function (ctx) {
+  try {
+    ctx.verifyParams({
+      username:{type:'string',required:true},
+      password:{type:'string',required:true}
+    })
+  } catch (err) {
+    ctx.status = 400
+    errMsg =err.errors.map((val,idx)=>{
+      return val.field + ' '+ val.message
+    })
+    ctx.body = errMsg
+    return
+  }
+  
+
   return passport.authenticate('local', async (err, user) => {
     if (err || !user) {
       ctx.throw(401);

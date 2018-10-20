@@ -2,6 +2,7 @@
 const Project = require('../../models/project');
 
 module.exports.createProject = async ctx => {
+
   if (ctx.isAuthenticated()) {
     try {
       const { name, description, employer } = ctx.request.body;

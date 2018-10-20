@@ -18,9 +18,10 @@ const router = require('./routes');
 const koaSwagger = require('koa2-swagger-ui');
 require('./mongoose')();
 const passport = require('koa-passport');
-
+const parameter = require('koa-parameter');
 const app = new Koa();
 
+app.use(parameter(app));
 app.use(
   koaSwagger({
     // host at /swagger instead of default /docs
@@ -66,7 +67,6 @@ app.use(logMiddleware({ logger }));
 require('./passport');
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 // Bootstrap application router
 app.use(router.routes());
