@@ -15,22 +15,32 @@ const logger = require('./logger');
 const requestId = require('./middlewares/requestId');
 const responseHandler = require('./middlewares/responseHandler');
 const router = require('./routes');
-
 const koaSwagger = require('koa2-swagger-ui');
+require('./mongoose')();
+const passport = require('koa-passport');
 
 const app = new Koa();
 
 app.use(
   koaSwagger({
-    routePrefix: '/swagger', // host at /swagger instead of default /docs
+    // host at /swagger instead of default /docs
+    routePrefix: '/swagger',
     swaggerOptions: {
-      url: '/spec', // example path to json
+      // example path to json
+      url: '/spec',
     },
   }),
 );
 
+
+// sessions
+const session = require('koa-session');
+app.keys = ['secret'];
+app.use(session({}, app));
+
 // Trust proxy
 app.proxy = true;
+
 
 // Set middlewares
 app.use(
@@ -52,15 +62,19 @@ app.use(responseHandler());
 app.use(errorHandler());
 app.use(logMiddleware({ logger }));
 
+
+require('./passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // Bootstrap application router
 app.use(router.routes());
 app.use(router.allowedMethods());
 
 function onError(err, ctx) {
-  if (apm.active)
-    apm.captureError(err);
-  if (ctx == null)
-    logger.error({ err, event: 'error' }, 'Unhandled exception occured');
+  if (apm.active) { apm.captureError(err); }
+  if (ctx == null) { logger.error({ err, event: 'error' }, 'Unhandled exception occured'); }
 }
 
 // Handle uncaught errors
