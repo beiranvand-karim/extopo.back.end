@@ -4,8 +4,8 @@ const User = require('../../models/user');
 exports.signInController = async function (ctx) {
   try {
     ctx.verifyParams({
-      username:{type:'string',required:true},
-      password:{type:'string',required:true}
+      userName:{type:'string',required:true},
+      passWord:{type:'string',required:true}
     })
   } catch (err) {
     ctx.status = 400

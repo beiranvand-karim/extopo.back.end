@@ -2,67 +2,52 @@
 'use strict';
 
 const request = require('supertest');
-const app = require('../../index');
+const app = require('../../index').listen();
 const User = require('../../models/user');
 
+// const { expect } = require('chai');
 
-const { expect } = require('chai');
+afterEach(() => {
+  // app.close()
+});
 
-function promisedAuthRequest() {
-  const authenticatedagent2b = request.agent(app.listen());
-  return new Promise((resolve, reject) => {
-    authenticatedagent2b
-      .post('/sign-in')
-      .send({
-        'userName': 'beiranvand.karim@gmail.com',
-        'passWord': 'karim'
-      })
-      .end(function (error, response) {
-        if (error) { reject(error); }
-        resolve(authenticatedagent2b);
-      });
-  });
+let token;
+let cookie;
+
+beforeAll((done) => {
+  request(app)
+    .post('/sign-in')
+    .send({
+      'userName': 'beiranvand.karim@gmail.com',
+      'passWord': 'karim'
+    })
+    .end((err, response) => {
+      token = response.body.token; // save the token!
+      cookie = response
+          .headers['set-cookie'][0]
+          .split(',')
+          .map(item => item.split(';')[0])
+          .join(';')
+      done();
+    });
+});
+
+async function promisedAuthRequest() {
+  try {
+    const res = await request(app).post('/sign-in').send({
+      userName: 'beiranvand.karim@gmail.com',
+      passWord: 'karim'
+    })
+    return res.body.token
+  } catch (err) {
+    throw (err)
+  }
 }
-
-function promisedCookie() {
-  return new Promise((resolve, reject) => {
-    request(app)
-      .post('/sign-in')
-      .send({
-        'userName': 'beiranvand.karim@gmail.com',
-        'passWord': 'karim'
-      })
-      .end(function (error, response) {
-        if (error) { reject(error); }
-        let loginCookie = response.headers['set-cookie'];
-        resolve(loginCookie);
-      });
-  });
-}
-
 
 describe('routes', () => {
-
-  it('hits a private route with superagent authentication', () => {
-    return promisedAuthRequest().then(authenticatedagent => {
-      return authenticatedagent.get('/project').expect(200)
-        .then(res => {
-          expect(res.body.answer).to.equal(42);
-        });
-    });
+  it('hits a private route with superagent authentication', async () => {
+    const response = await request(app).get('/project').set('Cookie', cookie)
+    expect(response.status).toEqual(200);
   });
 
-  it('hits a private route with supertest authentication and cookie', () => {
-    return promisedCookie().then(cookie => {
-      console.log('cookie is called', cookie);
-      const req = request(app)
-        .get('/project')
-        .set('cookie', cookie)
-        .expect(200)
-        .then(res => {
-          expect(res.body.answer).to.equal(42);
-        });
-      return req;
-    });
-  });
 });
