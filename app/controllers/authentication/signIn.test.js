@@ -23,10 +23,19 @@ beforeAll((done) => {
     })
     .end((err, response) => {
       token = response.body.token; // save the token!
-      cookie = response
+      if(response.headers['set-cookie'].length > 1){
+        cookie = response
           .headers['set-cookie']
           .map(item => item.split(';')[0])
           .join(';')
+      }else{
+        cookie = response
+          .headers['set-cookie'][0]
+          .split(',')
+          .map(item => item.split(';')[0])
+          .join(';')
+      }
+      
       done();
     });
 });
