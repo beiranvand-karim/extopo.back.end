@@ -24,7 +24,8 @@ beforeAll((done) => {
     .end((err, response) => {
       token = response.body.token; // save the token!
       cookie = response
-          .headers['set-cookie']
+          .headers['set-cookie'][0]
+          .split(',')
           .map(item => item.split(';')[0])
           .join(';')
       done();
