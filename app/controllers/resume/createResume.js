@@ -4,9 +4,9 @@ const Resume = require('../../models/resume');
 exports.createResume = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
-      const { skills, experiences, languages, projects } = ctx.request.body;
+      const { skills, experiences, languages, projects, coverLetter } = ctx.request.body;
       // create section
-      const newResume = new Resume({ skills, experiences, languages, projects });
+      const newResume = new Resume({ skills, experiences, languages, projects, coverLetter });
       const response = await newResume.save();
 
       if (response) {

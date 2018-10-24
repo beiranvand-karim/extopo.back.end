@@ -10,6 +10,7 @@ const resumeSchema = new Schema({
   experiences: { type: [ObjectId], required: true },
   languages: { type: [String], required: true },
   projects: { type: [ObjectId], required: true },
+  coverLetter: { type: String, required: true }
 });
 
 resumeSchema.index({ skills: 'text', experiences: 'text' });

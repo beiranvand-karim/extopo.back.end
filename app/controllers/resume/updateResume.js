@@ -6,7 +6,7 @@ exports.updateResume = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // const { name, description, date, employees, employer } = ctx.body;
-      const { skills, experiences, languages, projects } = ctx.request.body;
+      const { skills, experiences, languages, projects, coverLetter } = ctx.request.body;
 
       const updatedFields = {};
 
@@ -14,6 +14,7 @@ exports.updateResume = async ctx => {
       (experiences) && Object.assign(updatedFields, { experiences });
       (languages) && Object.assign(updatedFields, { languages });
       (projects) && Object.assign(updatedFields, { projects });
+      (coverLetter) && Object.assign(updatedFields, { coverLetter });
 
       // update section
       const response = await Resume.updateOne({ _id: ctx.params.id }, updatedFields);
