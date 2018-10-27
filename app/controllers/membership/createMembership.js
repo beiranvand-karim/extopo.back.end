@@ -4,6 +4,18 @@ const Membership = require('../../models/membership');
 module.exports.createMembership = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
+      ctx.verifyParams({
+        userId: { type: 'string', required: true },
+        userType: { type: 'string', required: true },
+      });
+    } catch (err) {
+      ctx.status = 400;
+      ctx.body = err.errors.map((val) => {
+        return val.field + ' ' + val.message;
+      });
+      return;
+    }
+    try {
       const { userId, userType } = ctx.request.body;
       // create section
       const newMembership = new Membership({ startDate: new Date(), endDate: new Date(), userId, userType });

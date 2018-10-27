@@ -4,18 +4,16 @@ const User = require('../../models/user');
 exports.signInController = async function (ctx) {
   try {
     ctx.verifyParams({
-      userName:{type:'string',required:true},
-      passWord:{type:'string',required:true}
-    })
+      userName: { type: 'string', required: true },
+      passWord: { type: 'string', required: true }
+    });
   } catch (err) {
-    ctx.status = 400
-    errMsg =err.errors.map((val,idx)=>{
-      return val.field + ' '+ val.message
-    })
-    ctx.body = errMsg
-    return
+    ctx.status = 400;
+    ctx.body = err.errors.map((val) => {
+      return val.field + ' ' + val.message;
+    });
+    return;
   }
-  
 
   return passport.authenticate('local', async (err, user) => {
     if (err || !user) {

@@ -4,6 +4,21 @@ const Resume = require('../../models/resume');
 exports.createResume = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
+      ctx.verifyParams({
+        skills: { type: 'array', required: true },
+        experiences: { type: 'array', required: true },
+        languages: { type: 'array', required: true },
+        projects: { type: 'array', required: true },
+        coverLetter: { type: 'string', required: true }
+      });
+    } catch (err) {
+      ctx.status = 400;
+      ctx.body = err.errors.map((val) => {
+        return val.field + ' ' + val.message;
+      });
+      return;
+    }
+    try {
       const { skills, experiences, languages, projects, coverLetter } = ctx.request.body;
       // create section
       const newResume = new Resume({ skills, experiences, languages, projects, coverLetter });

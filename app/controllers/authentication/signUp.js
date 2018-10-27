@@ -2,6 +2,23 @@
 const User = require('../../models/user');
 
 exports.signUpController =  async function (ctx) {
+
+  try {
+    ctx.verifyParams({
+      userName: { type: 'string', required: true },
+      passWord: { type: 'string', required: true },
+      firstName: { type: 'string', required: true },
+      lastName: { type: 'string', required: true },
+      userType: { type: 'string', required: true }
+    });
+  } catch (err) {
+    ctx.status = 400;
+    ctx.body = err.errors.map((val) => {
+      return val.field + ' ' + val.message;
+    });
+    return;
+  }
+
   try {
     const { userName, passWord, firstName, lastName, userType } = ctx.request.body;
 

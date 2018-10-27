@@ -1,9 +1,23 @@
 
 const Project = require('../../models/project');
 
-
 module.exports.updateProject = async ctx => {
   if (ctx.isAuthenticated()) {
+    try {
+      ctx.verifyParams({
+        name: { type: 'string', required: true },
+        description: { type: 'string', required: true },
+        // todo make this right
+        employees: { type: 'string', required: true },
+        employer: { type: 'string', required: true }
+      });
+    } catch (err) {
+      ctx.status = 400;
+      ctx.body = err.errors.map((val) => {
+        return val.field + ' ' + val.message;
+      });
+      return;
+    }
     try {
       // const { name, description, date, employees, employer } = ctx.body;
       const { name, description, date, employees, employer } = ctx.request.body;

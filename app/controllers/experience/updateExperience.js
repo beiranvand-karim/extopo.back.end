@@ -5,6 +5,19 @@ const Experience = require('../../models/experience');
 exports.updateExperience = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
+      ctx.verifyParams({
+        name: { type: 'string', required: true },
+        description: { type: 'string', required: true },
+        year: { type: 'number', required: true },
+      });
+    } catch (err) {
+      ctx.status = 400;
+      ctx.body = err.errors.map((val) => {
+        return val.field + ' ' + val.message;
+      });
+      return;
+    }
+    try {
       const { name, description, year } = ctx.request.body;
 
       const updatedFields = {};
