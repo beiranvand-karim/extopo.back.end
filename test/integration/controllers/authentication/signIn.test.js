@@ -1,9 +1,8 @@
-/* global describe, it */
+/* global describe, it, expect, afterEach, beforeAll */
 'use strict';
 
 const request = require('supertest');
-const app = require('../../index').listen();
-const User = require('../../models/user');
+const app = require('../../../../app/index').listen();
 
 // const { expect } = require('chai');
 
@@ -22,40 +21,42 @@ beforeAll((done) => {
       'passWord': 'karim'
     })
     .end((err, response) => {
-      token = response.body.token; // save the token!
-      if(response.headers['set-cookie'].length > 1){
+      // save the token!
+      token = response.body.token;
+      if(response.headers['set-cookie'].length > 1) {
         cookie = response
           .headers['set-cookie']
           .map(item => item.split(';')[0])
-          .join(';')
+          .join(';');
       }else{
         cookie = response
           .headers['set-cookie'][0]
           .split(',')
           .map(item => item.split(';')[0])
-          .join(';')
+          .join(';');
       }
-      
       done();
     });
 });
 
 async function promisedAuthRequest() {
   try {
-    const res = await request(app).post('/sign-in').send({
-      userName: 'beiranvand.karim@gmail.com',
-      passWord: 'karim'
-    })
-    return res.body.token
+    const res = await request(app).post('/sign-in')
+      .send({
+        userName: 'beiranvand.karim@gmail.com',
+        passWord: 'karim'
+      });
+    return res.body.token;
   } catch (err) {
-    throw (err)
+    throw (err);
   }
 }
 
 describe('routes', () => {
   it('hits a private route with superagent authentication', async () => {
-    const response = await request(app).get('/project').set('Cookie', cookie)
+    const response = await request(app).get('/project')
+      .set('Cookie', cookie);
     expect(response.status).toEqual(200);
   });
-
 });
+

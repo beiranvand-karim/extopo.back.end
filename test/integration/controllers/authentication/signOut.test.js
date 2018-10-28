@@ -2,10 +2,10 @@
 'use strict';
 
 const supertest = require('supertest');
-const app = require('../../index');
-const User = require('../../models/user');
+const app = require('../../../../app/index');
+const User = require('../../../../app/models/user');
 
-describe('signOut', () => {
+describe.skip('signOut', () => {
   const request = supertest(app.listen());
 
   describe('GET /sign-out', async () => {
