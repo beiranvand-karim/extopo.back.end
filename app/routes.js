@@ -33,6 +33,9 @@ const { readAllMemberships } = require('./controllers/membership/readAllMembersh
 const { updateMembership } = require('./controllers/membership/updateMembership');
 const { deleteMembership } = require('./controllers/membership/deleteMembership');
 
+const { createSurvey } = require('./controllers/survey/createSurvey');
+
+
 const router = new Router();
 
 router.get('/', homeController.getApiInfo);
@@ -71,6 +74,9 @@ router.get('/membership/:id', readMembership);
 router.get('/membership', readAllMemberships);
 router.put('/membership/:id', updateMembership);
 router.delete('/membership/:id', deleteMembership);
+
+
+router.post('/survey', createSurvey);
 
 
 module.exports = router;
