@@ -36,6 +36,7 @@ const { deleteMembership } = require('./controllers/membership/deleteMembership'
 const { createSurvey } = require('./controllers/survey/createSurvey');
 const { readSurvey } = require('./controllers/survey/readSurvey');
 const { readAllSurveys } = require('./controllers/survey/readAllsurveys');
+const { updateSurvey } = require('./controllers/survey/updateSurvey');
 
 const router = new Router();
 
@@ -80,5 +81,6 @@ router.delete('/membership/:id', deleteMembership);
 router.post('/survey', createSurvey);
 router.get('/survey/:id', readSurvey);
 router.get('/survey', readAllSurveys);
+router.put('/survey/:id', updateSurvey);
 
 module.exports = router;
