@@ -34,7 +34,7 @@ const { updateMembership } = require('./controllers/membership/updateMembership'
 const { deleteMembership } = require('./controllers/membership/deleteMembership');
 
 const { createSurvey } = require('./controllers/survey/createSurvey');
-
+const { readSurvey } = require('./controllers/survey/readSurvey');
 
 const router = new Router();
 
@@ -77,6 +77,6 @@ router.delete('/membership/:id', deleteMembership);
 
 
 router.post('/survey', createSurvey);
-
+router.get('/survey/:id', readSurvey);
 
 module.exports = router;
