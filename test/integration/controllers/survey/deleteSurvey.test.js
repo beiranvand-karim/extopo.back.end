@@ -53,7 +53,7 @@ describe('DELETE /survey', () => {
     expect(response.status).toEqual(401);
   });
 
-  it('should read a survey 200', async () => {
+  it('should delete a survey 200', async () => {
     const response = await request(app).del(`/survey/${_id}`)
       .set('Cookie', cookie);
     expect(response.status).toEqual(200);

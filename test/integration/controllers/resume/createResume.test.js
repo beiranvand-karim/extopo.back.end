@@ -3,29 +3,9 @@
 
 const request = require('supertest');
 const app = require('../../../../app/index').listen();
+const resume = require('./resume.meta');
 
 let cookie;
-
-const resume = {
-  'skills': [
-    'angular',
-    'react',
-    'java spring',
-    'node.js',
-    'python'
-  ],
-  'experiences': [
-    '5bbc5b57fc16fb380794ced0'
-  ],
-  'languages': [
-    'english',
-    'persian'
-  ],
-  'projects': [
-    '5bbdadecd06ff54df19fdc7c'
-  ],
-  'coverLetter': 'this is a cover letter'
-};
 
 beforeAll((done) => {
   request(app)
