@@ -3,6 +3,7 @@
 
 const request = require('supertest');
 const app = require('../../../../app/index').listen();
+const survey = require('./survey.meta');
 
 let cookie;
 
@@ -34,47 +35,29 @@ beforeAll((done) => {
 describe('POST /survey', () => {
   it('should return not authenticated 401', async () => {
     const response = await request(app).post('/survey')
-      .send({
-        'workForceCount': 10,
-        'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'frontend',
-        'projectDescription': 'test project'
-      });
+      .send(survey);
     expect(response.status).toEqual(401);
   });
 
   it('should create a survey 201', async () => {
     const response = await request(app).post('/survey')
-      .send({
-        'workForceCount': 'single talent',
-        'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'front end',
-        'projectDescription': 'test project'
-      })
+      .send(survey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(201);
   });
 
   it('should return bad request 400', async () => {
+    const modifiedSurvey = { ...survey, workForceCount: 10 };
     const response = await request(app).post('/survey')
-      .send({
-        'workForceCount': 10,
-        'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'frontend',
-        'projectDescription': 'test project'
-      })
+      .send(modifiedSurvey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(400);
   });
 
   it('should return internal server error 500', async () => {
+    const modifiedSurvey = { ...survey, workForceCount: 'karim',  projectType: 'frontend' };
     const response = await request(app).post('/survey')
-      .send({
-        'workForceCount': 'karim',
-        'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'frontend',
-        'projectDescription': 'test project'
-      })
+      .send(modifiedSurvey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(500);
   });

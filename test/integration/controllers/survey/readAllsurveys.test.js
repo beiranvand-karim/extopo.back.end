@@ -4,6 +4,7 @@
 const request = require('supertest');
 const app = require('../../../../app/index').listen();
 const Survey = require('../../../../app/models/survey');
+const survey = require('./survey.meta');
 
 let cookie;
 
@@ -37,12 +38,7 @@ describe('GET /survey', () => {
 
   beforeAll(async (done) => {
     const response = await request(app).post('/survey')
-      .send({
-        'workForceCount': 'two or more',
-        'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'front end',
-        'projectDescription': 'test project'
-      })
+      .send(survey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(201);
     _id = response.body._id;
