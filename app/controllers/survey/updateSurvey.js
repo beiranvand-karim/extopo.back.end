@@ -5,7 +5,7 @@ exports.updateSurvey = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       ctx.verifyParams({
-        workForceCount: { type: 'number', required: false },
+        workForceCount: { type: 'string', required: false },
         demandedSkills: { type: 'array', required: false },
         projectType: { type: 'string', required: false },
         projectDescription: { type: 'string', required: false },
@@ -32,7 +32,7 @@ exports.updateSurvey = async ctx => {
       const response = await Survey.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the project updated.';
+        return ctx.body = 'the survey updated.';
       }
       // not found section
       ctx.status = 404;

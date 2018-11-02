@@ -37,9 +37,9 @@ describe('DELETE /survey', () => {
   beforeAll(async (done) => {
     const response = await request(app).post('/survey')
       .send({
-        'workForceCount': 10,
+        'workForceCount': 'two or more',
         'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'frontend',
+        'projectType': 'front end',
         'projectDescription': 'test project'
       })
       .set('Cookie', cookie);

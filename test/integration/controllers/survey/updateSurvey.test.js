@@ -37,9 +37,9 @@ describe('PUT /survey', () => {
   beforeAll(async (done) => {
     const response = await request(app).post('/survey')
       .send({
-        'workForceCount': 10,
+        'workForceCount': 'single talent',
         'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'frontend',
+        'projectType': 'front end',
         'projectDescription': 'test project'
       })
       .set('Cookie', cookie);
@@ -51,9 +51,9 @@ describe('PUT /survey', () => {
   it('should return not authenticated 401', async () => {
     const response = await request(app).put(`/survey/${_id}`)
       .send({
-        'workForceCount': 10,
+        'workForceCount': 'single talent',
         'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'frontend',
+        'projectType': 'front end',
         'projectDescription': 'test project'
       });
     expect(response.status).toEqual(401);
@@ -62,9 +62,9 @@ describe('PUT /survey', () => {
   it('should update a survey 200', async () => {
     const response = await request(app).put(`/survey/${_id}`)
       .send({
-        'workForceCount': 10,
+        'workForceCount': 'two or more',
         'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'frontend',
+        'projectType': 'back end',
         'projectDescription': 'test project'
       })
       .set('Cookie', cookie);

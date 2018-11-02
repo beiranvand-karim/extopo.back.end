@@ -46,9 +46,9 @@ describe('POST /survey', () => {
   it('should create a survey 201', async () => {
     const response = await request(app).post('/survey')
       .send({
-        'workForceCount': 10,
+        'workForceCount': 'single talent',
         'demandedSkills': ['dba', 'graphist', 'frontend'],
-        'projectType': 'frontend',
+        'projectType': 'front end',
         'projectDescription': 'test project'
       })
       .set('Cookie', cookie);
@@ -58,12 +58,24 @@ describe('POST /survey', () => {
   it('should return bad request 400', async () => {
     const response = await request(app).post('/survey')
       .send({
-        'workForceCount': '10',
+        'workForceCount': 10,
         'demandedSkills': ['dba', 'graphist', 'frontend'],
         'projectType': 'frontend',
         'projectDescription': 'test project'
       })
       .set('Cookie', cookie);
     expect(response.status).toEqual(400);
+  });
+
+  it('should return internal server error 500', async () => {
+    const response = await request(app).post('/survey')
+      .send({
+        'workForceCount': 'karim',
+        'demandedSkills': ['dba', 'graphist', 'frontend'],
+        'projectType': 'frontend',
+        'projectDescription': 'test project'
+      })
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(500);
   });
 });

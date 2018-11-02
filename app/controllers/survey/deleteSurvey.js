@@ -8,7 +8,7 @@ exports.deleteSurvey = async ctx => {
       const response = await Survey.deleteOne({ _id: ctx.params.id });
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the resume deleted.';
+        return ctx.body = 'the survey deleted.';
       }
       // not found section
       ctx.status = 404;

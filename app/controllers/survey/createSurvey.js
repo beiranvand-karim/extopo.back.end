@@ -5,7 +5,7 @@ exports.createSurvey = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       ctx.verifyParams({
-        workForceCount: { type: 'number', required: true },
+        workForceCount: { type: 'string', required: true },
         demandedSkills: { type: 'array', required: true },
         projectType: { type: 'string', required: true },
         projectDescription: { type: 'string', required: true },
