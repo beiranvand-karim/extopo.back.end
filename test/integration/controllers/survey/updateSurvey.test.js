@@ -58,10 +58,14 @@ describe('PUT /survey', () => {
     expect(response.status).toEqual(200);
   });
   // todo fix this
-  it.skip('should return bad request 400', async () => {
-    const modifiedSurvey = Object.assign({}, survey, { workForceCount: '10',  projectType: 'test' });
+  it('should return bad request 400', async () => {
     const response = await request(app).put(`/survey/${_id}`)
-      .send(modifiedSurvey)
+      .send({
+        'workForceCount': '10',
+        'demandedSkills': 'dba',
+        'projectType': 'frontend',
+        'projectDescription': 'test project'
+      })
       .set('Cookie', cookie);
     expect(response.status).toEqual(400);
   });
