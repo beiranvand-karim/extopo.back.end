@@ -1,10 +1,10 @@
 'use strict';
 
-const dotenv = require('dotenv');
+const dotEnv = require('dotenv');
 
 
 // Load environment variables from .env file
-dotenv.config();
+dotEnv.config();
 
 const env = process.env.NODE_ENV || 'development';
 const configs = {
@@ -15,11 +15,14 @@ const configs = {
     port: 7070
   },
   production: {
+    mongodbUri: 'mongodb://karim:karim123@localhost:27017/extopo',
     port: process.env.APP_PORT || 7071
   },
   development: {
+    mongodbUri: 'mongodb://karim:karim123@localhost:27017/extopo',
   },
   test: {
+    mongodbUri: 'mongodb://karim:karim123@localhost:27017/extopo',
     port: 7072,
   }
 };

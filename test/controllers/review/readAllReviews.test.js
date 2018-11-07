@@ -5,32 +5,19 @@ const request = require('supertest');
 const app = require('../../../app/index').listen();
 const Review = require('../../../app/models/review');
 const review = require('./review.meta');
+const { signIn } = require('../signInCallback');
 
 let cookie;
 const route = '/review';
 
 beforeAll((done) => {
-  request(app)
-    .post('/sign-in')
-    .send({
-      'userName': 'beiranvand.karim@gmail.com',
-      'passWord': 'karim'
-    })
-    .end((err, response) => {
-      // save the token!
-      if(response.headers['set-cookie'].length > 1) {
-        cookie = response
-          .headers['set-cookie']
-          .map(item => item.split(';')[0])
-          .join(';');
-      }else{
-        cookie = response
-          .headers['set-cookie'][0]
-          .split(',')
-          .map(item => item.split(';')[0])
-          .join(';');
-      }
+  signIn(app)
+    .then(_cookie => {
+      cookie = _cookie;
       done();
+    })
+    .catch(err => {
+      done(err);
     });
 });
 
