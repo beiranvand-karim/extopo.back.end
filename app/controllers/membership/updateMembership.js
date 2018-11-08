@@ -3,14 +3,24 @@ const Membership = require('../../models/membership');
 module.exports.updateMembership = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
-      const { userId, userType, startDate, endDate } = ctx.request.body;
+      ctx.verifyParams({
+        userId: { type: 'string', required: false },
+        userType: { type: 'string', required: false },
+      });
+    } catch (err) {
+      ctx.status = 400;
+      ctx.body = err.errors.map((val) => {
+        return val.field + ' ' + val.message;
+      });
+      return;
+    }
+    try {
+      const { userId, userType } = ctx.request.body;
 
       const updatedFields = {};
 
       (userId) && Object.assign(updatedFields, { userId });
       (userType) && Object.assign(updatedFields, { userType });
-      (startDate) && Object.assign(updatedFields, { startDate });
-      (endDate) && Object.assign(updatedFields, { endDate });
 
       // update section
       const response = await Membership.updateOne({ _id: ctx.params.id }, updatedFields);
