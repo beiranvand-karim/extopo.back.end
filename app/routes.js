@@ -43,6 +43,7 @@ const { createReview } = require('./controllers/review/createReview');
 const { readReview } = require('./controllers/review/readReview');
 const { readAllReviews } = require('./controllers/review/readAllReviews');
 const { updateReview } = require('./controllers/review/updateReview');
+const { deleteReview } = require('./controllers/review/deleteReview');
 
 const router = new Router();
 
@@ -94,5 +95,6 @@ router.post('/review', createReview);
 router.get('/review/:id', readReview);
 router.get('/review', readAllReviews);
 router.put('/review/:id', updateReview);
+router.delete('/review/:id', deleteReview);
 
 module.exports = router;
