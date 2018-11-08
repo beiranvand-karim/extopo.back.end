@@ -5,11 +5,11 @@ module.exports.updateProject = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       ctx.verifyParams({
-        name: { type: 'string', required: true },
-        description: { type: 'string', required: true },
-        // todo make this right
-        employees: { type: 'string', required: true },
-        employer: { type: 'string', required: true }
+        name: { type: 'string', required: false },
+        description: { type: 'string', required: false },
+        // todo could it be array of strings?
+        employees: { type: 'array', required: false },
+        employer: { type: 'string', required: false }
       });
     } catch (err) {
       ctx.status = 400;
@@ -20,13 +20,12 @@ module.exports.updateProject = async ctx => {
     }
     try {
       // const { name, description, date, employees, employer } = ctx.body;
-      const { name, description, date, employees, employer } = ctx.request.body;
+      const { name, description, employees, employer } = ctx.request.body;
 
       const updatedFields = {};
 
       (name) && Object.assign(updatedFields, { name });
       (description) && Object.assign(updatedFields, { description });
-      (date) && Object.assign(updatedFields, { date });
       (employees) && Object.assign(updatedFields, { employees });
       (employer) && Object.assign(updatedFields, { employer });
 
