@@ -52,7 +52,7 @@ async function promisedAuthRequest() {
   }
 }
 
-describe('routes', () => {
+describe.skip('routes', () => {
   it('hits a private route with superagent authentication', async () => {
     const response = await request(app).get('/project')
       .set('Cookie', cookie);
