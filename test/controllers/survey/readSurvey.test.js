@@ -1,4 +1,4 @@
-/* global describe, it, expect, afterEach, beforeAll */
+/* global describe, it, expect, beforeAll */
 'use strict';
 
 const request = require('supertest');
@@ -7,6 +7,9 @@ const survey = require('./survey.meta');
 const { signIn } = require('../signInCallback');
 
 let cookie;
+const route = 'survey';
+const idRoute = id => `/${route}/${id}`;
+const createReview = `/${route}`;
 
 beforeAll((done) => {
   signIn(app)
@@ -19,11 +22,11 @@ beforeAll((done) => {
     });
 });
 
-describe('GET /survey', () => {
+describe('GET ' + idRoute(':id'), () => {
   let _id;
 
   beforeAll(async (done) => {
-    const response = await request(app).post('/survey')
+    const response = await request(app).post(createReview)
       .send(survey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(201);
@@ -32,21 +35,27 @@ describe('GET /survey', () => {
   });
 
   it('should return not authenticated 401', async () => {
-    const response = await request(app).get(`/survey/${_id}`);
+    const response = await request(app).get(idRoute(_id));
     expect(response.status).toEqual(401);
   });
 
-  it('should read a survey 200', async () => {
-    const response = await request(app).get(`/survey/${_id}`)
+  it(`should read a ${route} 200`, async () => {
+    const response = await request(app).get(idRoute(_id))
       .set('Cookie', cookie);
     expect(response.status).toEqual(200);
+  });
+
+  it('should return internal server error 500', async () => {
+    const response = await request(app).get(idRoute(route))
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(500);
   });
 
   it('should return not found 404', async () => {
     _id = Array.from(_id)
       .reverse()
       .join('');
-    const response = await request(app).get(`/survey/${_id}`)
+    const response = await request(app).get(idRoute(_id))
       .set('Cookie', cookie);
     expect(response.status).toEqual(404);
   });
