@@ -1,23 +1,55 @@
-/* global describe, beforeEach, it */
+/* global describe, it, expect, beforeAll */
 'use strict';
 
-const supertest = require('supertest');
-const app = require('../../../app/index');
+const request = require('supertest');
+const app = require('../../../app/index').listen();
 const Resume = require('../../../app/models/resume');
+const resume = require('./resume.meta');
+const { signIn } = require('../signInCallback');
 
-describe.skip('Membership ', () => {
-  const request = supertest(app.listen());
+let cookie;
+const route = 'resume';
+const readRoute = `/${route}`;
+const createRoute = `/${route}`;
 
-  beforeEach(async () => {
-    await Resume.deleteMany({});
+beforeAll((done) => {
+  signIn(app)
+    .then(_cookie => {
+      cookie = _cookie;
+      done();
+    })
+    .catch(err => {
+      done(err);
+    });
+});
+
+describe(`GET ${readRoute}`, () => {
+  let _id;
+
+  beforeAll(async (done) => {
+    const response = await request(app).post(createRoute)
+      .send(resume)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(201);
+    _id = response.body._id;
+    done();
   });
 
-  describe('GET /resume', () => {
-    it('should be unauthorized.', async () => {
-      const res = await request
-        .get('/resume')
-        .expect('Content-Type', 'text/plain; charset=utf-8')
-        .expect(401);
-    });
+  it('should return not authenticated 401', async () => {
+    const response = await request(app).get(readRoute);
+    expect(response.status).toEqual(401);
+  });
+
+  it(`should read ${route}(s) 200`, async () => {
+    const response = await request(app).get(readRoute)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(200);
+  });
+
+  it('should return not found 404', async () => {
+    await Resume.deleteMany({});
+    const response = await request(app).get(readRoute)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(404);
   });
 });
