@@ -1,12 +1,13 @@
+'use strict';
 
-const Resume = require('../../models/resume');
+const Review = require('../../models/review');
 
-exports.readAllResumes = async ctx => {
+exports.readReview = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // found section
-      const response = await Resume.find();
-      if (response && response.length > 0) {
+      const response = await Review.findById(ctx.params.id);
+      if (response) {
         ctx.status = 200;
         return ctx.body = response;
       }
@@ -14,8 +15,8 @@ exports.readAllResumes = async ctx => {
       ctx.status = 404;
       return ctx.body = 'NOT found';
     } catch (e) {
-      ctx.status = 500;
-      ctx.body = e.message;
+      ctx.status = e.code;
+      ctx.body = e;
     }
   } else {
     ctx.status = 401;

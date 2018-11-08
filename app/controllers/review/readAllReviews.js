@@ -1,11 +1,12 @@
+'use strict';
 
-const Resume = require('../../models/resume');
+const Review = require('../../models/review');
 
-exports.readAllResumes = async ctx => {
+exports.readAllReviews = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       // found section
-      const response = await Resume.find();
+      const response = await Review.find();
       if (response && response.length > 0) {
         ctx.status = 200;
         return ctx.body = response;

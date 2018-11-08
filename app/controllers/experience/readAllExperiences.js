@@ -6,7 +6,7 @@ exports.readAllExperiences = async (ctx) => {
     try {
       // found section
       const response = await Experience.find();
-      if (response) {
+      if (response && response.length > 0) {
         ctx.status = 200;
         return ctx.body = response;
       }

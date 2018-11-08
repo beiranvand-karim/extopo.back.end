@@ -6,7 +6,7 @@ module.exports.readAllProjects = async ctx => {
     try {
       // found section
       const response = await Project.find();
-      if (response) {
+      if (response && response.length > 0) {
         ctx.status = 200;
         return ctx.body = response;
       }

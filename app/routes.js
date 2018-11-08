@@ -40,6 +40,10 @@ const { updateSurvey } = require('./controllers/survey/updateSurvey');
 const { deleteSurvey } = require('./controllers/survey/deleteSurvey');
 
 const { createReview } = require('./controllers/review/createReview');
+const { readReview } = require('./controllers/review/readReview');
+const { readAllReviews } = require('./controllers/review/readAllReviews');
+const { updateReview } = require('./controllers/review/updateReview');
+const { deleteReview } = require('./controllers/review/deleteReview');
 
 const router = new Router();
 
@@ -88,5 +92,9 @@ router.put('/survey/:id', updateSurvey);
 router.delete('/survey/:id', deleteSurvey);
 
 router.post('/review', createReview);
+router.get('/review/:id', readReview);
+router.get('/review', readAllReviews);
+router.put('/review/:id', updateReview);
+router.delete('/review/:id', deleteReview);
 
 module.exports = router;

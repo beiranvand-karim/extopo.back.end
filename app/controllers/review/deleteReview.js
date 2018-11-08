@@ -1,14 +1,15 @@
+'use strict';
 
-const Resume = require('../../models/resume');
+const Review = require('../../models/review');
 
-exports.readAllResumes = async ctx => {
+exports.deleteReview = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
-      // found section
-      const response = await Resume.find();
-      if (response && response.length > 0) {
+      // delete section
+      const response = await Review.deleteOne({ _id: ctx.params.id });
+      if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = response;
+        return ctx.body = 'the review deleted.';
       }
       // not found section
       ctx.status = 404;

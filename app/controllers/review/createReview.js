@@ -1,5 +1,4 @@
 
-
 const Review = require('../../models/review');
 
 exports.createReview = async ctx => {
@@ -20,8 +19,8 @@ exports.createReview = async ctx => {
     }
     try {
       const { description, point, employerId, employeeId } = ctx.request.body;
-      const newResume = new Review({ description, point, employerId, employeeId });
-      const response = await newResume.save();
+      const newReview = new Review({ description, point, employerId, employeeId });
+      const response = await newReview.save();
 
       if (response) {
         ctx.status = 201;

@@ -19,17 +19,13 @@ exports.createSurvey = async ctx => {
     }
     try {
       const { workForceCount, demandedSkills, projectType, projectDescription } = ctx.request.body;
-      // create section
-      const newResume = new Survey({ workForceCount, demandedSkills, projectType, projectDescription });
-      const response = await newResume.save();
+      const newSurvey = new Survey({ workForceCount, demandedSkills, projectType, projectDescription });
+      const response = await newSurvey.save();
 
       if (response) {
         ctx.status = 201;
         return ctx.body = response;
       }
-      // not found section
-      ctx.status = 404;
-      return ctx.body = 'NOT found';
     } catch (e) {
       ctx.status = 500;
       ctx.body = e.message;
