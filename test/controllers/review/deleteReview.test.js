@@ -43,6 +43,12 @@ describe('DELETE ' + route(':id'), () => {
     expect(response.status).toEqual(200);
   });
 
+  it('should return internal server error 500', async () => {
+    const response = await request(app).del(route('some_text'))
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(500);
+  });
+
   it('should return not found 404', async () => {
     _id = Array.from(_id)
       .reverse()
