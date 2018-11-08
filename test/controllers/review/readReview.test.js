@@ -7,7 +7,9 @@ const review = require('./review.meta');
 const { signIn } = require('../signInCallback');
 
 let cookie;
-const route = id => `/review/${id}`;
+const route = 'review';
+const idRoute = id => `/${route}/${id}`;
+const createReview = `/${route}`;
 
 beforeAll((done) => {
   signIn(app)
@@ -20,11 +22,11 @@ beforeAll((done) => {
     });
 });
 
-describe('GET ' + route(':id'), () => {
+describe('GET ' + idRoute(':id'), () => {
   let _id;
 
   beforeAll(async (done) => {
-    const response = await request(app).post('/review')
+    const response = await request(app).post(createReview)
       .send(review)
       .set('Cookie', cookie);
     expect(response.status).toEqual(201);
@@ -33,21 +35,27 @@ describe('GET ' + route(':id'), () => {
   });
 
   it('should return not authenticated 401', async () => {
-    const response = await request(app).get(route(_id));
+    const response = await request(app).get(idRoute(_id));
     expect(response.status).toEqual(401);
   });
 
-  it('should read a survey 200', async () => {
-    const response = await request(app).get(route(_id))
+  it(`should read a ${route} 200`, async () => {
+    const response = await request(app).get(idRoute(_id))
       .set('Cookie', cookie);
     expect(response.status).toEqual(200);
+  });
+
+  it('should return internal server error 500', async () => {
+    const response = await request(app).get(idRoute(route))
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(500);
   });
 
   it('should return not found 404', async () => {
     _id = Array.from(_id)
       .reverse()
       .join('');
-    const response = await request(app).get(route(_id))
+    const response = await request(app).get(idRoute(_id))
       .set('Cookie', cookie);
     expect(response.status).toEqual(404);
   });
