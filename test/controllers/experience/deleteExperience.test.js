@@ -1,23 +1,62 @@
-/* global describe, beforeEach, it */
+/* global describe, it, expect, beforeAll */
 'use strict';
 
-const supertest = require('supertest');
-const app = require('../../../app/index');
-const Experience = require('../../../app/models/experience');
+const request = require('supertest');
+const app = require('../../../app/index').listen();
+const experience = require('./experience.meta');
+const { signIn } = require('../signInCallback');
 
-describe.skip('Experience ', () => {
-  const request = supertest(app.listen());
+let cookie;
+const route = 'experience';
+const idRoute = id => `/${route}/${id}`;
+const createRoute = `/${route}`;
 
-  beforeEach(async () => {
-    await Experience.deleteMany({});
+beforeAll((done) => {
+  signIn(app)
+    .then(_cookie => {
+      cookie = _cookie;
+      done();
+    })
+    .catch(err => {
+      done(err);
+    });
+});
+
+describe('DELETE ' + idRoute(':id'), () => {
+  let _id;
+
+  beforeAll(async (done) => {
+    const response = await request(app).post(createRoute)
+      .send(experience)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(201);
+    _id = response.body._id;
+    done();
   });
 
-  describe('GET /experience', () => {
-    it('should be unauthorized.', async () => {
-      const res = await request
-        .get('/experience')
-        .expect('Content-Type', 'text/plain; charset=utf-8')
-        .expect(401);
-    });
+  it('should return not authenticated 401', async () => {
+    const response = await request(app).del(idRoute(_id));
+    expect(response.status).toEqual(401);
+  });
+
+  it(`should delete a ${route} 200`, async () => {
+    const response = await request(app).del(idRoute(_id))
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(200);
+  });
+
+  it('should return internal server error 500', async () => {
+    const response = await request(app).del(idRoute('some_text'))
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(500);
+  });
+
+  it('should return not found 404', async () => {
+    _id = Array.from(_id)
+      .reverse()
+      .join('');
+    const response = await request(app).del(idRoute(_id))
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(404);
   });
 });
