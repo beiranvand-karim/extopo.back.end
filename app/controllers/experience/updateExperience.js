@@ -6,9 +6,9 @@ exports.updateExperience = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
       ctx.verifyParams({
-        name: { type: 'string', required: true },
-        description: { type: 'string', required: true },
-        year: { type: 'number', required: true },
+        name: { type: 'string', required: false },
+        description: { type: 'string', required: false },
+        year: { type: 'number', required: false },
       });
     } catch (err) {
       ctx.status = 400;
