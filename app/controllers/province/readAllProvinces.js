@@ -1,10 +1,11 @@
 
-const Province = require('../../assets/provinces/Province');
+const Provinces = require('../../assets/provinces/Province');
 
-module.exports.readProvince = async ctx => {
+module.exports.readAllProvinces = async ctx => {
   if (ctx.isAuthenticated()) {
     try {
-      const response = Province[ctx.params.id];
+      Provinces.forEach(province => delete province.cities);
+      const response = Provinces;
       if (response) {
         ctx.status = 200;
         return ctx.body = response;
