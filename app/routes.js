@@ -45,6 +45,9 @@ const { readAllReviews } = require('./controllers/review/readAllReviews');
 const { updateReview } = require('./controllers/review/updateReview');
 const { deleteReview } = require('./controllers/review/deleteReview');
 
+const { readProvince } = require('./controllers/province/readProvince');
+
+
 const router = new Router();
 
 router.get('/', homeController.getApiInfo);
@@ -96,5 +99,7 @@ router.get('/review/:id', readReview);
 router.get('/review', readAllReviews);
 router.put('/review/:id', updateReview);
 router.delete('/review/:id', deleteReview);
+
+router.get('/province/:id', readProvince);
 
 module.exports = router;

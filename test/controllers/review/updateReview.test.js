@@ -1,4 +1,4 @@
-/* global describe, it, expect, afterEach, beforeAll */
+/* global describe, it, expect, beforeAll */
 'use strict';
 
 const request = require('supertest');
@@ -7,7 +7,9 @@ const review = require('./review.meta');
 const { signIn } = require('../signInCallback');
 
 let cookie;
-const route = id => `/review/${id}`;
+const route = 'review';
+const updateRoute = id => `/${route}/${id}`;
+const createRoute = `/${route}`;
 
 beforeAll((done) => {
   signIn(app)
@@ -20,11 +22,11 @@ beforeAll((done) => {
     });
 });
 
-describe('PUT ' + route(':id'), () => {
+describe(`PUT ${updateRoute(':id')}`, () => {
   let _id;
 
   beforeAll(async (done) => {
-    const response = await request(app).post('/review')
+    const response = await request(app).post(createRoute)
       .send(review)
       .set('Cookie', cookie);
     expect(response.status).toEqual(201);
@@ -33,22 +35,22 @@ describe('PUT ' + route(':id'), () => {
   });
 
   it('should return not authenticated 401', async () => {
-    const response = await request(app).put(route(_id))
+    const response = await request(app).put(updateRoute(_id))
       .send(review);
     expect(response.status).toEqual(401);
   });
 
-  it('should update a review 200', async () => {
+  it(`should update a(n) ${route} 200`, async () => {
     const modified = { ...review, point: 20 };
-    const response = await request(app).put(route(_id))
+    const response = await request(app).put(updateRoute(_id))
       .send(modified)
       .set('Cookie', cookie);
     expect(response.status).toEqual(200);
   });
   it('should return bad request 400', async () => {
-    const response = await request(app).put(route(_id))
+    const response = await request(app).put(updateRoute(_id))
       .send({
-        'test': '10'
+        'point': '10'
       })
       .set('Cookie', cookie);
     expect(response.status).toEqual(400);
@@ -57,9 +59,15 @@ describe('PUT ' + route(':id'), () => {
     _id = Array.from(_id)
       .reverse()
       .join('');
-    const response = await request(app).put(route(_id))
+    const response = await request(app).put(updateRoute(_id))
       .send(review)
       .set('Cookie', cookie);
     expect(response.status).toEqual(404);
+  });
+  it('should return internal server error 500', async () => {
+    const response = await request(app).put(updateRoute(route))
+      .send(review)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(500);
   });
 });

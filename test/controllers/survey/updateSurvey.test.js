@@ -1,4 +1,4 @@
-/* global describe, it, expect, afterEach, beforeAll */
+/* global describe, it, expect, beforeAll */
 'use strict';
 
 const request = require('supertest');
@@ -7,6 +7,9 @@ const survey = require('./survey.meta');
 const { signIn } = require('../signInCallback');
 
 let cookie;
+const route = 'survey';
+const updateRoute = id => `/${route}/${id}`;
+const createRoute = `/${route}`;
 
 beforeAll((done) => {
   signIn(app)
@@ -19,11 +22,11 @@ beforeAll((done) => {
     });
 });
 
-describe('PUT /survey', () => {
+describe(`PUT ${updateRoute(':id')}`, () => {
   let _id;
 
   beforeAll(async (done) => {
-    const response = await request(app).post('/survey')
+    const response = await request(app).post(createRoute)
       .send(survey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(201);
@@ -32,28 +35,39 @@ describe('PUT /survey', () => {
   });
 
   it('should return not authenticated 401', async () => {
-    const response = await request(app).put(`/survey/${_id}`)
+    const response = await request(app).put(updateRoute(_id))
       .send(survey);
     expect(response.status).toEqual(401);
   });
 
-  it('should update a survey 200', async () => {
-    const modifiedSurvey = { ...survey, workForceCount: 'two or more', projectType: 'back end' };
-    const response = await request(app).put(`/survey/${_id}`)
-      .send(modifiedSurvey)
+  it(`should update a(n) ${route} 200`, async () => {
+    const modified = { ...survey, projectDescription: 'this is a test' };
+    const response = await request(app).put(updateRoute(_id))
+      .send(modified)
       .set('Cookie', cookie);
     expect(response.status).toEqual(200);
   });
-  // todo fix this
   it('should return bad request 400', async () => {
-    const response = await request(app).put(`/survey/${_id}`)
+    const response = await request(app).put(updateRoute(_id))
       .send({
-        'workForceCount': '10',
-        'demandedSkills': 'dba',
-        'projectType': 'frontend',
-        'projectDescription': 'test project'
+        'projectDescription': 10
       })
       .set('Cookie', cookie);
     expect(response.status).toEqual(400);
+  });
+  it('should return not found 404', async () => {
+    _id = Array.from(_id)
+      .reverse()
+      .join('');
+    const response = await request(app).put(updateRoute(_id))
+      .send(survey)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(404);
+  });
+  it('should return internal server error 500', async () => {
+    const response = await request(app).put(updateRoute(route))
+      .send(survey)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(500);
   });
 });
