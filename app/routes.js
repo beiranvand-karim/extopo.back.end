@@ -66,9 +66,9 @@ router.put('/experience/:id', updateExperience);
 router.post('/experience/search', searchExperience);
 
 
-router.post('/project', createProject);
+router.post(/project/, createProject);
 router.get('/project/:id', readProject);
-router.get('/project', readAllProjects);
+router.get(/project/, readAllProjects);
 router.put('/project/:id', updateProject);
 router.delete('/project/:id', deleteProject);
 router.post('/project/search', searchProject);

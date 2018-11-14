@@ -7,6 +7,7 @@ const survey = require('./survey.meta');
 const { signIn } = require('../signInCallback');
 
 let cookie;
+const createRoute = /survey/;
 
 beforeAll((done) => {
   signIn(app)
@@ -21,13 +22,13 @@ beforeAll((done) => {
 
 describe('POST /survey', () => {
   it('should return not authenticated 401', async () => {
-    const response = await request(app).post('/survey')
+    const response = await request(app).post(createRoute)
       .send(survey);
     expect(response.status).toEqual(401);
   });
 
   it('should create a survey 201', async () => {
-    const response = await request(app).post('/survey')
+    const response = await request(app).post(createRoute)
       .send(survey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(201);
@@ -35,7 +36,7 @@ describe('POST /survey', () => {
 
   it('should return bad request 400', async () => {
     const modifiedSurvey = { ...survey, workForceCount: 10 };
-    const response = await request(app).post('/survey')
+    const response = await request(app).post(createRoute)
       .send(modifiedSurvey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(400);
@@ -43,7 +44,7 @@ describe('POST /survey', () => {
 
   it('should return internal server error 500', async () => {
     const modifiedSurvey = { ...survey, workForceCount: 'karim',  projectType: 'frontend' };
-    const response = await request(app).post('/survey')
+    const response = await request(app).post(createRoute)
       .send(modifiedSurvey)
       .set('Cookie', cookie);
     expect(response.status).toEqual(500);

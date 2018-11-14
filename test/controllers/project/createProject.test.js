@@ -1,23 +1,44 @@
-/* global describe, beforeEach, it */
+/* global describe, it, expect, afterEach, beforeAll */
 'use strict';
 
-const supertest = require('supertest');
-const app = require('../../../app/index');
-const Project = require('../../../app/models/project');
+const request = require('supertest');
+const app = require('../../../app/index').listen();
+const project = require('./project.meta');
+const { signIn } = require('../signInCallback');
 
-describe.skip('Membership ', () => {
-  const request = supertest(app.listen());
+let cookie;
+const createRoute = /project/;
 
-  beforeEach(async () => {
-    await Project.deleteMany({});
+beforeAll((done) => {
+  signIn(app)
+    .then(_cookie => {
+      cookie = _cookie;
+      done();
+    })
+    .catch(err => {
+      done(err);
+    });
+});
+
+describe('POST ' + createRoute, () => {
+  it('should return not authenticated 401', async () => {
+    const response = await request(app).post(createRoute)
+      .send(project);
+    expect(response.status).toEqual(401);
   });
 
-  describe('GET /project', () => {
-    it('should be unauthorized.', async () => {
-      const res = await request
-        .get('/project')
-        .expect('Content-Type', 'text/plain; charset=utf-8')
-        .expect(401);
-    });
+  it('should create a review 201', async () => {
+    const response = await request(app).post(createRoute)
+      .send(project)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(201);
+  });
+
+  it('should return bad request 400', async () => {
+    const modified = { ...project, description: 10 };
+    const response = await request(app).post(createRoute)
+      .send(modified)
+      .set('Cookie', cookie);
+    expect(response.status).toEqual(400);
   });
 });
