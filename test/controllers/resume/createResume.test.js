@@ -7,6 +7,8 @@ const resume = require('./resume.meta');
 const { signIn } = require('../signInCallback');
 
 let cookie;
+const route = 'resume';
+const createRoute = `/${route}`;
 
 beforeAll((done) => {
   signIn(app)
@@ -21,13 +23,13 @@ beforeAll((done) => {
 
 describe('POST /resume', () => {
   it('should return not authenticated 401', async () => {
-    const response = await request(app).post('/resume')
+    const response = await request(app).post(createRoute)
       .send(resume);
     expect(response.status).toEqual(401);
   });
 
-  it('should create a resume 201', async () => {
-    const response = await request(app).post('/resume')
+  it(`should create a ${route} 201`, async () => {
+    const response = await request(app).post(createRoute)
       .send(resume)
       .set('Cookie', cookie);
     expect(response.status).toEqual(201);
@@ -35,7 +37,7 @@ describe('POST /resume', () => {
 
   it('should return bad request 400', async () => {
     const modifiedResume = Object.assign({}, resume, { coverLetter: 20 });
-    const response = await request(app).post('/resume')
+    const response = await request(app).post(createRoute)
       .send(modifiedResume)
       .set('Cookie', cookie);
     expect(response.status).toEqual(400);

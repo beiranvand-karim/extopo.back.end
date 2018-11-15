@@ -7,7 +7,8 @@ const survey = require('./survey.meta');
 const { signIn } = require('../signInCallback');
 
 let cookie;
-const createRoute = /survey/;
+const route = 'survey';
+const createRoute = `/${route}`;
 
 beforeAll((done) => {
   signIn(app)
@@ -27,7 +28,7 @@ describe('POST /survey', () => {
     expect(response.status).toEqual(401);
   });
 
-  it('should create a survey 201', async () => {
+  it(`should create a ${route} 201`, async () => {
     const response = await request(app).post(createRoute)
       .send(survey)
       .set('Cookie', cookie);
