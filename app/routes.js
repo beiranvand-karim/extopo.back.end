@@ -49,6 +49,7 @@ const { readProvince } = require('./controllers/province/readProvince');
 const { readAllProvinces } = require('./controllers/province/readAllProvinces');
 
 const { createScore } = require('./controllers/score/createScore');
+const { deleteScore } = require('./controllers/score/deleteScore');
 
 
 const router = new Router();
@@ -107,5 +108,6 @@ router.get('/province/:id', readProvince);
 router.get('/province', readAllProvinces);
 
 router.post(/\/score/, createScore);
+router.delete('/score/:id', deleteScore);
 
 module.exports = router;
