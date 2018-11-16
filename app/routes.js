@@ -52,6 +52,7 @@ const { createScore } = require('./controllers/score/createScore');
 const { deleteScore } = require('./controllers/score/deleteScore');
 const { readAllScores } = require('./controllers/score/readAllScores');
 const { readScore } = require('./controllers/score/readScore');
+const { updateScore } = require('./controllers/score/updateScore');
 
 
 const router = new Router();
@@ -113,6 +114,7 @@ router.post('/score', createScore);
 router.delete('/score/:id', deleteScore);
 router.get('/score', readAllScores);
 router.get('/score/:id', readScore);
+router.put('/score/:id', updateScore);
 
 
 module.exports = router;
