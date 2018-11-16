@@ -51,6 +51,7 @@ const { readAllProvinces } = require('./controllers/province/readAllProvinces');
 const { createScore } = require('./controllers/score/createScore');
 const { deleteScore } = require('./controllers/score/deleteScore');
 const { readAllScores } = require('./controllers/score/readAllScores');
+const { readScore } = require('./controllers/score/readScore');
 
 
 const router = new Router();
@@ -108,9 +109,10 @@ router.delete('/review/:id', deleteReview);
 router.get('/province/:id', readProvince);
 router.get('/province', readAllProvinces);
 
-router.post(/\/score/, createScore);
+router.post('/score', createScore);
 router.delete('/score/:id', deleteScore);
-router.get(/\/score/, readAllScores);
+router.get('/score', readAllScores);
+router.get('/score/:id', readScore);
 
 
 module.exports = router;
