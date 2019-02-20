@@ -5,6 +5,7 @@ const homeController = require('./controllers/home');
 const signInController = require('./controllers/authentication/signIn');
 const signUpController = require('./controllers/authentication/signUp');
 const signOutController = require('./controllers/authentication/signOut');
+const userInformationController = require('./controllers/authentication/userInformation');
 
 const { deleteExperience } = require('./controllers/experience/deleteExperience');
 const { updateExperience } = require('./controllers/experience/updateExperience');
@@ -62,6 +63,7 @@ router.get('/spec', homeController.getSwaggerSpec);
 router.post('/sign-in', signInController.signInController);
 router.post('/sign-up', signUpController.signUpController);
 router.get('/sign-out', signOutController.signOutController);
+router.get('/userInformation', userInformationController.userInformationController);
 
 
 router.post('/experience', createExperience);
