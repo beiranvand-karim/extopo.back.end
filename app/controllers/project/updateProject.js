@@ -1,5 +1,7 @@
+'use strict';
 
 const Project = require('../../models/project');
+const route = 'project';
 
 module.exports.updateProject = async ctx => {
   if (ctx.isAuthenticated()) {
@@ -33,7 +35,7 @@ module.exports.updateProject = async ctx => {
       const response = await Project.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the project updated.';
+        return ctx.body = `the ${route} updated.`;
       }
       // not found section
       ctx.status = 404;

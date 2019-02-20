@@ -1,5 +1,7 @@
+'use strict';
 
 const Survey = require('../../models/survey');
+const route = 'survey';
 
 exports.updateSurvey = async ctx => {
   if (ctx.isAuthenticated()) {
@@ -32,7 +34,7 @@ exports.updateSurvey = async ctx => {
       const response = await Survey.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the survey updated.';
+        return ctx.body = `the ${route} updated.`;
       }
       // not found section
       ctx.status = 404;

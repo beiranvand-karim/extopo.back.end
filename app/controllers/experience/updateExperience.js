@@ -1,6 +1,7 @@
+'use strict';
 
 const Experience = require('../../models/experience');
-
+const route = 'experience';
 
 exports.updateExperience = async ctx => {
   if (ctx.isAuthenticated()) {
@@ -30,7 +31,7 @@ exports.updateExperience = async ctx => {
 
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the experience updated.';
+        return ctx.body = `the ${route} updated.`;
       }
 
       // not found section

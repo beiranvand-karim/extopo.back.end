@@ -1,6 +1,7 @@
 'use strict';
 
 const Review = require('../../models/review');
+const route = 'review';
 
 exports.updateReview = async ctx => {
   if (ctx.isAuthenticated()) {
@@ -32,7 +33,7 @@ exports.updateReview = async ctx => {
       const response = await Review.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the survey updated.';
+        return ctx.body = `the ${route} updated.`;
       }
       // not found section
       ctx.status = 404;

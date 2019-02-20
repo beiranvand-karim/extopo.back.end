@@ -1,4 +1,7 @@
+'use strict';
+
 const Membership = require('../../models/membership');
+const route = 'membership';
 
 module.exports.updateMembership = async ctx => {
   if (ctx.isAuthenticated()) {
@@ -26,7 +29,7 @@ module.exports.updateMembership = async ctx => {
       const response = await Membership.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the membership updated';
+        return ctx.body = `the ${route} updated`;
       }
       // not found section
       ctx.status = 404;

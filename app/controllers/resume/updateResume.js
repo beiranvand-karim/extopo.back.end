@@ -1,6 +1,7 @@
+'use strict';
 
 const Resume = require('../../models/resume');
-
+const route = 'resume';
 
 exports.updateResume = async ctx => {
   if (ctx.isAuthenticated()) {
@@ -35,7 +36,7 @@ exports.updateResume = async ctx => {
       const response = await Resume.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the resume updated.';
+        return ctx.body = `the ${route} updated.`;
       }
       // not found section
       ctx.status = 404;

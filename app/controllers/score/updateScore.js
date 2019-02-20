@@ -1,6 +1,7 @@
 'use strict';
 
 const Score = require('../../models/score');
+const route = 'score';
 
 exports.updateScore = async ctx => {
   if (ctx.isAuthenticated()) {
@@ -40,7 +41,7 @@ exports.updateScore = async ctx => {
       const response = await Score.updateOne({ _id: ctx.params.id }, updatedFields);
       if (response.n === 1) {
         ctx.status = 200;
-        return ctx.body = 'the survey updated.';
+        return ctx.body = `the ${route} updated.`;
       }
       // not found section
       ctx.status = 404;
