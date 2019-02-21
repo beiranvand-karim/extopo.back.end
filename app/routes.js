@@ -55,6 +55,8 @@ const { readAllScores } = require('./controllers/score/readAllScores');
 const { readScore } = require('./controllers/score/readScore');
 const { updateScore } = require('./controllers/score/updateScore');
 
+const {changeEmailController} = require('./controllers/user/changeEmail');
+
 
 const router = new Router();
 
@@ -118,5 +120,6 @@ router.get('/score', readAllScores);
 router.get('/score/:id', readScore);
 router.put('/score/:id', updateScore);
 
+router.put('/user', changeEmailController);
 
 module.exports = router;

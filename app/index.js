@@ -59,6 +59,18 @@ app.use(
     exposeHeaders: ['X-Request-Id']
   })
 );
+
+/*app.use(async (ctx, next) => {
+  console.log('------------');
+  console.log(ctx.request);
+  console.log('------------');
+  ctx.set('Access-Control-Allow-Origin', '*');
+  ctx.set('Access-Control-Allow-Headers', '*');
+  ctx.set('Access-Control-Allow-Credentials', 'true');
+  ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  await next();
+});*/
+
 app.use(responseHandler());
 app.use(errorHandler());
 app.use(logMiddleware({ logger }));
@@ -73,8 +85,12 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 function onError(err, ctx) {
-  if (apm.active) { apm.captureError(err); }
-  if (ctx == null) { logger.error({ err, event: 'error' }, 'Unhandled exception occured'); }
+  if (apm.active) {
+    apm.captureError(err);
+  }
+  if (ctx == null) {
+    logger.error({ err, event: 'error' }, 'Unhandled exception occured');
+  }
 }
 
 // Handle uncaught errors
