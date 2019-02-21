@@ -1,6 +1,6 @@
 const User = require('../../models/user');
 
-exports.userInformationController = async ctx => {
+exports.readUserInformationController = async ctx => {
   if (ctx.isAuthenticated()) {
     const userId = ctx.session.passport.user;
     const user = await User.findOne({ _id: userId });

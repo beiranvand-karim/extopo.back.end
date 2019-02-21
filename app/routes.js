@@ -5,7 +5,6 @@ const homeController = require('./controllers/home');
 const signInController = require('./controllers/authentication/signIn');
 const signUpController = require('./controllers/authentication/signUp');
 const signOutController = require('./controllers/authentication/signOut');
-const userInformationController = require('./controllers/authentication/userInformation');
 
 const { deleteExperience } = require('./controllers/experience/deleteExperience');
 const { updateExperience } = require('./controllers/experience/updateExperience');
@@ -24,9 +23,9 @@ const { searchProject } = require('./controllers/project/searchProject');
 const { createResume } = require('./controllers/resume/createResume');
 const { readResume } = require('./controllers/resume/readResume');
 const { readAllResumes } = require('./controllers/resume/readAllResumes');
-const {  updateResume } = require('./controllers/resume/updateResume');
-const {  deleteResume } = require('./controllers/resume/deleteResume');
-const {  searchResume } = require('./controllers/resume/searchResume');
+const { updateResume } = require('./controllers/resume/updateResume');
+const { deleteResume } = require('./controllers/resume/deleteResume');
+const { searchResume } = require('./controllers/resume/searchResume');
 
 const { createMembership } = require('./controllers/membership/createMembership');
 const { readMembership } = require('./controllers/membership/readMembership');
@@ -55,7 +54,9 @@ const { readAllScores } = require('./controllers/score/readAllScores');
 const { readScore } = require('./controllers/score/readScore');
 const { updateScore } = require('./controllers/score/updateScore');
 
-const {changeEmailController} = require('./controllers/user/changeEmail');
+const { readUserInformationController } = require('./controllers/user/readUserInformation');
+const { changeEmailController } = require('./controllers/user/changeEmail');
+const { updateUserInformationController } = require('./controllers/user/updateUserInformation');
 
 
 const router = new Router();
@@ -65,7 +66,6 @@ router.get('/spec', homeController.getSwaggerSpec);
 router.post('/sign-in', signInController.signInController);
 router.post('/sign-up', signUpController.signUpController);
 router.get('/sign-out', signOutController.signOutController);
-router.get('/userInformation', userInformationController.userInformationController);
 
 
 router.post('/experience', createExperience);
@@ -120,6 +120,8 @@ router.get('/score', readAllScores);
 router.get('/score/:id', readScore);
 router.put('/score/:id', updateScore);
 
+router.get('/user', readUserInformationController);
 router.put('/user', changeEmailController);
+router.put('/user/update', updateUserInformationController);
 
 module.exports = router;
